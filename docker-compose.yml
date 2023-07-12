@@ -1,9 +1,10 @@
 version: '3'
 services:
-  web:
+  django:
     build:
       context: .
       dockerfile: ./docker/django/Dockerfile
+    container_name: django-${PROJECT}  
     environment:
      - POSTGRES_USER
      - POSTGRES_PASSWORD
@@ -16,34 +17,55 @@ services:
     restart: always
     depends_on:
       - redis
-      - db
+      - mssql2017
     command: sh -c "python manage.py runserver 0.0.0.0:8000"
-  db:
-   image: postgres:13-alpine
-   environment:
-     - POSTGRES_USER
-     - POSTGRES_PASSWORD
-     - POSTGRES_DB
-   volumes:
-     - data:/var/lib/postgresql/data
-   expose:
-     - "5432"
+
+  # db:
+  #  image: postgres:13-alpine
+  #  environment:
+  #    - POSTGRES_USER
+  #    - POSTGRES_PASSWORD
+  #    - POSTGRES_DB
+  #  volumes:
+  #    - data:/var/lib/postgresql/data
+  #  expose:
+  #    - "5432"
+  
+  mssql2017:
+    container_name: mssql-${PROJECT}
+    image: mcr.microsoft.com/azure-sql-edge:latest
+    # CRISTOF WE MAY NEED TO ADDRESS THIS, THERE IS A MIXED BETWEEN PERMISSIONS
+    # https://stackoverflow.com/questions/65601077/unable-to-run-sql-server-2019-docker-with-volumes-and-get-error-setup-failed-co
+    user: root
+    ports:
+        - "${MSSQL_PORTS}"
+    volumes:
+        #database data will be kept even if container is deleted
+        - mssql2017-golibro:/var/opt/mssql/data
+    environment:
+        - ACCEPT_EULA=Y
+        - MSSQL_SA_PASSWORD=${MSSQL_ROOT_PASSWORD}
+        - MSSQL_PID=Developer
+
   mailhog:
     image: mailhog/mailhog:v1.0.1
+    container_name: mailhog-${PROJECT} 
     restart: always
     ports:
       - 1025:1025
       - 8025:8025
+  
   celeryworker:
     build:
       context: .
       dockerfile: ./docker/django/Dockerfile
+    container_name: celery-${PROJECT}   
     command: sh -c "celery -A golibro.celeryconf beat -l info"
     volumes:
       - .:/hitiit360
     depends_on:
       - redis
-      - db
+      - mssql2017
     environment:
       - POSTGRES_USER
       - POSTGRES_PASSWORD
@@ -51,7 +73,25 @@ services:
       - SECRET_KEY
       - DJANGO_SETTINGS_MODULE
     tty: true
+  
   redis:
     image: redis:alpine
+    container_name: redis-${PROJECT}
+    ports:
+      - "6382:6379"
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: redis-commander-${PROJECT}
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+      - HTTP_USER=${REDIS_COMMANDER_USER}
+      - HTTP_PASSWORD=${REDIS_COMMANDER_PWD}
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis
+
 volumes:
-  data:
+  # data:
+  mssql2017-golibro:
