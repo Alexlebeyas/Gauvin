@@ -40,7 +40,7 @@ services:
     # https://stackoverflow.com/questions/65601077/unable-to-run-sql-server-2019-docker-with-volumes-and-get-error-setup-failed-co
     user: root
     ports:
-        - 1433:1433
+        - "${MSSQL_PORTS}"
     volumes:
         #database data will be kept even if container is deleted
         - mssql2017-golibro:/var/opt/mssql/data
