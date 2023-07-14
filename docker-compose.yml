@@ -20,18 +20,6 @@ services:
       - redis
       - mssql2017
     command: sh -c "python manage.py runserver 0.0.0.0:8000"
-
-  # db:
-  #  image: postgres:13-alpine
-  #  environment:
-  #    - POSTGRES_USER
-  #    - POSTGRES_PASSWORD
-  #    - POSTGRES_DB
-  #  volumes:
-  #    - data:/var/lib/postgresql/data
-  #  expose:
-  #    - "5432"
-
   mssql2017:
     container_name: mssql-${PROJECT}
     image: mcr.microsoft.com/azure-sql-edge:latest
@@ -69,9 +57,10 @@ services:
       - redis
       - mssql2017
     environment:
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - POSTGRES_DB
+      - MSSQL_SA_USER
+      - MSSQL_DB_NAME
+      - MSSQL_PORTS
+      - MSSQL_ROOT_PASSWORD
       - SECRET_KEY
       - DJANGO_SETTINGS_MODULE
     tty: true
