@@ -17,7 +17,7 @@ services:
     tty: true
     restart: always
     depends_on:
-#      - redis
+      - redis
       - mssql2017
     command: sh -c "python manage.py runserver 0.0.0.0:8000"
 
