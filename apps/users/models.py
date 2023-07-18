@@ -12,8 +12,8 @@ class UserManager(BaseUserManager):
         """Create and save a User with the given email and password."""
         if not cemail:
             raise ValueError(_('The given email must be set'))
-
-        user = self.model(cemail=cemail)
+        cemail = self.normalize_email(cemail)
+        user = self.model(cemail=cemail, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user

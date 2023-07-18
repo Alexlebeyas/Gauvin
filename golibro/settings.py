@@ -4,7 +4,6 @@ https://djoser.readthedocs.io/en/latest/introduction.html
 Permission doc https://www.django-rest-framework.org/api-guide/permissions/#isadminuser
 """
 import os
-import ssl
 from pathlib import Path
 from datetime import timedelta
 
