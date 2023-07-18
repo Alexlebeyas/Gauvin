@@ -5,6 +5,7 @@ RUN apt-get update -y && apt-get install libjpeg-dev libproj-dev gettext libgett
 
 RUN pip install pip==23.1.2
 RUN pip install -r requirements.txt
+RUN pip install -r requirements-dev.txt
 
 RUN apt-get update
 RUN apt-get install -y curl apt-transport-https

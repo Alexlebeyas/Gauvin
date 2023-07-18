@@ -3,9 +3,10 @@ DOC https://github.com/axnsan12/drf-yasg
 https://djoser.readthedocs.io/en/latest/introduction.html
 Permission doc https://www.django-rest-framework.org/api-guide/permissions/#isadminuser
 """
-
-from pathlib import Path
 import os
+import ssl
+from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'coreapi',
     'drf_yasg',
     'drf_standardized_errors',
+    'sslserver',
 
     'apps.crontasks',
     'apps.users',
@@ -134,7 +136,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 LOGOUT_URL = 'rest_framework:logout'
 LOGIN_URL = 'rest_framework:login'
 
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'users.Tblcontactsecondaire'
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
 ]
@@ -170,3 +172,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Celery Broker - Redis
 CELERY_BROKER_URL = 'redis://redis:6379/0'
 CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
+
+# Settings for jwt token
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "USER_ID_FIELD": "icligne",
+    "AUTH_HEADER_TYPES": ("Bearer",),
+    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=5),
+    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
+}
