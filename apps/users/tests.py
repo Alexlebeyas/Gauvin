@@ -4,18 +4,6 @@ from django.contrib.auth.hashers import make_password
 from apps.unit_tests.golibro_test import GolibroTestCase
 from . import factories
 
-# class GolibroTestCase(GolibroTestCase):
-#     @classmethod
-#     def setUpTestData(cls):
-#         models.Tbltypecontact.objects.create(ictype=1, cdescription='Client', cdescriptionan='Client', lsysteme=1)
-#         models.Tbltypecontact.objects.create(ictype=2, cdescription='Fournisseur', cdescriptionan='Supplier', lsysteme=1)
-#         models.Tbltypecontact.objects.create(ictype=3, cdescription='Employé', cdescriptionan='Employee', lsysteme=1)
-#         models.Tbltypecontact.objects.create(ictype=4, cdescription='Prospect', cdescriptionan='Prospect', lsysteme=1)
-
-#         models.Tbltypecontactsous.objects.create(ictype=1, cdescription='(aucun)', cdescriptionan='(none)')
-#         models.Tbltypecontactsous.objects.create(ictype=5, cdescription='Gouvernement', cdescriptionan='Supplier')
-#         models.Tbltypecontactsous.objects.create(ictype=6, cdescription='municipale', cdescriptionan='municipale')
-#         models.Tbltypecontactsous.objects.create(ictype=7, cdescription='scolaire', cdescriptionan='scolaire')
 
 
 class LoginTest(GolibroTestCase):
@@ -24,6 +12,8 @@ class LoginTest(GolibroTestCase):
         self.password = 'secret'
         self.user = factories.UserFactory.create(password=make_password(self.password))
         self.login_endpoint = reverse('tokens_obtain_pair')
+        self.check_endpoint = reverse('sanity_check')
+        
 
     def test_invalid_user_login_response(self):
         """Valid email and password gets 400 response status"""
@@ -58,3 +48,9 @@ class LoginTest(GolibroTestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn('refresh', response.data)
         self.assertIn('access', response.data)
+
+    def test_check_returns_ok(self):
+        """check call my returns ok"""
+        response = self.client.get(self.check_endpoint)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual("OK", response.data)

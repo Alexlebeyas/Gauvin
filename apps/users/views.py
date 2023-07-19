@@ -2,10 +2,12 @@ from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
-from .serializers import UserModelSerializer
+from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
-from .models import Tblcontactsecondaire as User
 from django.core.mail import send_mail
+
+from .serializers import UserModelSerializer
+from .models import Tblcontactsecondaire as User
 
 
 # Create your views here.
@@ -32,3 +34,9 @@ class MailhogTestView(ListAPIView):
         )
         return Response(serializer.data)
     serializer_class = UserModelSerializer
+
+class CheckView(APIView):
+    """Just acknowledge the API is up and running"""
+    permission_classes = [AllowAny]
+    def get(self, request, format=None):
+        return Response("OK")
