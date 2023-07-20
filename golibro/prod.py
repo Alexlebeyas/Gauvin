@@ -1,4 +1,4 @@
-from .settings import *
+from .base import *  # noqa
 
 ALLOWED_HOSTS = []
 PROJECT_PROTOCOL = 'https://'
@@ -6,9 +6,15 @@ PROJECT_DOMAIN = ''
 PROJECT_URI = "".join((PROJECT_PROTOCOL, PROJECT_DOMAIN))
 SECRET_KEY = os.environ['SECRET_KEY']
 
-DEBUG = TEMPLATE_DEBUG = False
+DEBUG = False
 
-INSTALLED_APPS.remove('sslserver')
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = ''
+EMAIL_PORT = 587
+SERVER_EMAIL = EMAIL_HOST_USER = os.environ.get('EMAIL')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
+DEFAULT_FROM_EMAIL = ''
 
 AUTH_PASSWORD_VALIDATORS = [
     {

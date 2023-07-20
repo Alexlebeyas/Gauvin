@@ -1,9 +1,6 @@
 from rest_framework.generics import RetrieveAPIView
-from rest_framework.views import APIView
-from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
 from .serializers import UserModelSerializer
-from rest_framework.permissions import IsAuthenticated
 from .models import User
 from django.core.mail import send_mail
 

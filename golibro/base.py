@@ -15,16 +15,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-x&z31ih$!*6noe*rbt5bzjx-45-p_$oj9hkpb1y(p^k&)i$(_$'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mailhog' # Mailhog Container
-EMAIL_PORT = '1025'
-
-ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -40,7 +30,6 @@ INSTALLED_APPS = [
     'coreapi',
     'drf_yasg',
     'drf_standardized_errors',
-    'sslserver',
 
     'apps.crontasks',
     'apps.users',
@@ -140,7 +129,7 @@ PASSWORD_HASHERS = [
 ]
 
 
-CORS_ALLOW_ALL_ORIGINS = True # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
+CORS_ALLOW_ALL_ORIGINS = True  # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
 CORS_ALLOW_CREDENTIALS = True
 
 # Internationalization
