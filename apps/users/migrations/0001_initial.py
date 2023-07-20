@@ -85,7 +85,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'tblContact',
-                'managed': True,
+                'managed': False,
             },
         ),
         migrations.CreateModel(
@@ -98,7 +98,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'tblFrequence',
-                'managed': True,
+                'managed': False,
             },
         ),
         migrations.CreateModel(
@@ -110,7 +110,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'tblLangue',
-                'managed': True,
+                'managed': False,
             },
         ),
         migrations.CreateModel(
@@ -133,7 +133,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'tblRepresentant',
-                'managed': True,
+                'managed': False,
             },
         ),
         migrations.CreateModel(
@@ -147,7 +147,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'tblTypeContact',
-                'managed': True,
+                'managed': False,
             },
         ),
         migrations.CreateModel(
@@ -160,11 +160,11 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'tblTypeContactSous',
-                'managed': True,
+                'managed': False,
             },
         ),
         migrations.CreateModel(
-            name='Tblcontactsecondaire',
+            name='User',
             fields=[
                 ('icligne', models.AutoField(db_column='icLigne', primary_key=True, serialize=False)),
                 ('csalutation', models.CharField(blank=True, db_collation='SQL_Latin1_General_CP1_CI_AS', db_column='cSalutation', max_length=20, null=True)),

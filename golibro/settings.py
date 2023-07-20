@@ -101,7 +101,6 @@ CACHES = {
 }
 
 # For ratelimit doc https://www.django-rest-framework.org/api-guide/throttling/
-
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -117,8 +116,8 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.UserRateThrottle'
     ],
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '100/day',
-        'user': '1000/day'
+        'anon': '10/minute',
+        'user': '100/minute'
     }
 }
 
@@ -131,19 +130,18 @@ USE_SESSION_AUTH = True
 
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
+SECURE_SSL_REDIRECT = True
 LOGOUT_URL = 'rest_framework:logout'
 LOGIN_URL = 'rest_framework:login'
 
-AUTH_USER_MODEL = 'users.Tblcontactsecondaire'
+AUTH_USER_MODEL = 'users.User'
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
 ]
 
 
-CORS_ALLOW_ALL_ORIGINS = True  # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
+CORS_ALLOW_ALL_ORIGINS = True # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = ['http://localhost:3030',] # If this is used, then not need to use `CORS_ALLOW_ALL_ORIGINS = True`
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/

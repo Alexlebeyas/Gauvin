@@ -8,7 +8,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 
 DEBUG = TEMPLATE_DEBUG = False
 
-MIDDLEWARE += ('whitenoise.middleware.WhiteNoiseMiddleware',)
+INSTALLED_APPS.remove('sslserver')
 
 AUTH_PASSWORD_VALIDATORS = [
     {

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.utils.translation import gettext_lazy as _
-from .models import Tblcontactsecondaire as User, Tblfrequence, Tblcontact, Tblrepresentant, Tbllangue, Tbltypecontactsous, Tbltypecontact
+from .models import User, Tblfrequence, Tblcontact, Tblrepresentant, Tbllangue, Tbltypecontactsous, Tbltypecontact
 from rest_framework.authtoken.models import TokenProxy
 from django.contrib.auth.models import Group
 

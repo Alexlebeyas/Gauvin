@@ -8,7 +8,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 
 DEBUG = TEMPLATE_DEBUG = True
 
-MIDDLEWARE += ('whitenoise.middleware.WhiteNoiseMiddleware',)
+INSTALLED_APPS.remove('sslserver')
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'mailhog'  # Mailhog Container

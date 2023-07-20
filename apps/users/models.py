@@ -45,7 +45,7 @@ class Tbltypecontact(models.Model):
     ssma_timestamp = models.TextField(db_column='SSMA_TimeStamp')  # Field name made lowercase. This field type is a guess.
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'tblTypeContact'
 
 
@@ -56,7 +56,7 @@ class Tbltypecontactsous(models.Model):
     ntype = models.IntegerField(db_column='nType', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'tblTypeContactSous'
 
 
@@ -66,7 +66,7 @@ class Tbllangue(models.Model):
     cdescriptionan = models.CharField(db_column='cDescriptionAn', max_length=50, db_collation='SQL_Latin1_General_CP1_CI_AS', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'tblLangue'
 
 
@@ -87,7 +87,7 @@ class Tblrepresentant(models.Model):
     bacceshoraire = models.BooleanField(db_column='bAccesHoraire')  # Field name made lowercase.
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'tblRepresentant'
 
 
@@ -98,7 +98,7 @@ class Tblfrequence(models.Model):
     nmois = models.IntegerField(db_column='nMois', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'tblFrequence'
 
 
@@ -177,11 +177,11 @@ class Tblcontact(models.Model):
     nfrequencefacturationapi = models.IntegerField(db_column='nFrequenceFacturationAPI', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'tblContact'
 
 
-class Tblcontactsecondaire(AbstractUser):
+class User(AbstractUser):
     """
       Custom user class inheriting AbstractBaseUser class
     """
