@@ -26,6 +26,11 @@ SchemaView = get_schema_view(
 
 
 def root_redirect(request):
+    """
+    redirect to documentation
+    :param request:
+    :return: redirect to home to documentation
+    """
     user_agent_string = request.META.get('HTTP_USER_AGENT', '')
     user_agent = user_agents.parse(user_agent_string)
     schema_view = 'cschema-swagger-ui'
@@ -36,7 +41,7 @@ def root_redirect(request):
 
 # urlpatterns required for settings values
 urlpatterns = i18n_patterns(
-    path('swagger(?P<format>\.json|\.yaml)', SchemaView.without_ui(cache_timeout=0), name='schema-json'),
+    path(r'^swagger(?P<format>\.json|\.yaml)', SchemaView.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', SchemaView.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', SchemaView.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 

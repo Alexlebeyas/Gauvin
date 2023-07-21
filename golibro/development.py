@@ -10,4 +10,4 @@ ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0']
 
 SECRET_KEY = 'django-insecure-x&z31ih$!*6noe*rbt5bzjx-45-p_$oj9hkpb1y(p^k&)i$(_$'
 
-INSTALLED_APPS += ['sslserver',]
+INSTALLED_APPS += ['sslserver', ]  # noqa
