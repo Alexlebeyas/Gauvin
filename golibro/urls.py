@@ -6,11 +6,10 @@ from django.contrib import admin
 from django.shortcuts import redirect
 from django.urls import include, path
 from django.utils.translation import gettext_lazy as _
-from rest_framework import permissions
-from rest_framework.documentation import include_docs_urls
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
-
+from rest_framework import permissions
+from rest_framework.documentation import include_docs_urls
 
 SchemaView = get_schema_view(
     openapi.Info(
@@ -25,6 +24,7 @@ SchemaView = get_schema_view(
     permission_classes=[permissions.AllowAny],
 )
 
+
 def root_redirect(request):
     user_agent_string = request.META.get('HTTP_USER_AGENT', '')
     user_agent = user_agents.parse(user_agent_string)
@@ -32,6 +32,7 @@ def root_redirect(request):
     if user_agent.is_mobile:
         schema_view = 'cschema-redoc'
     return redirect(schema_view, permanent=True)
+
 
 # urlpatterns required for settings values
 urlpatterns = i18n_patterns(
