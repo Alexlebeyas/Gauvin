@@ -6,9 +6,10 @@ services:
       dockerfile: ./docker/django/Dockerfile
     container_name: django-${PROJECT}  
     environment:
-     - POSTGRES_USER
-     - POSTGRES_PASSWORD
-     - POSTGRES_DB
+      - MSSQL_SA_USER
+      - MSSQL_DB_NAME
+      - MSSQL_PORTS
+      - MSSQL_ROOT_PASSWORD
     ports:
       - "8000:8000"
     volumes:
@@ -18,22 +19,11 @@ services:
     depends_on:
       - redis
       - mssql2017
-    command: sh -c "python manage.py runserver 0.0.0.0:8000"
-
-  # db:
-  #  image: postgres:13-alpine
-  #  environment:
-  #    - POSTGRES_USER
-  #    - POSTGRES_PASSWORD
-  #    - POSTGRES_DB
-  #  volumes:
-  #    - data:/var/lib/postgresql/data
-  #  expose:
-  #    - "5432"
-  
+    command: sh -c "python manage.py runsslserver 0.0.0.0:8000"
   mssql2017:
     container_name: mssql-${PROJECT}
     image: mcr.microsoft.com/azure-sql-edge:latest
+    hostname: 'sqlserver'
     # CRISTOF WE MAY NEED TO ADDRESS THIS, THERE IS A MIXED BETWEEN PERMISSIONS
     # https://stackoverflow.com/questions/65601077/unable-to-run-sql-server-2019-docker-with-volumes-and-get-error-setup-failed-co
     user: root
@@ -67,9 +57,10 @@ services:
       - redis
       - mssql2017
     environment:
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - POSTGRES_DB
+      - MSSQL_SA_USER
+      - MSSQL_DB_NAME
+      - MSSQL_PORTS
+      - MSSQL_ROOT_PASSWORD
       - SECRET_KEY
       - DJANGO_SETTINGS_MODULE
     tty: true
