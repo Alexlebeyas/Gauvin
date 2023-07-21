@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.utils.translation import gettext_lazy as _
-from .models import User, Frequence, Contact, Representant, Language, ContactSousType, ContactType
+from .models import User, Frequency, Contact, Representant, Language, ContactSousType, ContactType
 from rest_framework.authtoken.models import TokenProxy
 from django.contrib.auth.models import Group
 
@@ -28,8 +28,8 @@ class UserAdmin(DjangoUserAdmin):
     ordering = ('email', )
 
 
-@admin.register(Frequence)
-class FrequenceModelAdmin(admin.ModelAdmin):
+@admin.register(Frequency)
+class FrequencyModelAdmin(admin.ModelAdmin):
     list_display = ['id', 'description', 'description_an', 'month']
 
 

