@@ -9,42 +9,40 @@ from . import models
 
 class ContactFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.Tblcontact
+        model = models.User
 
-    ntype = factory.Iterator(models.Tbltypecontact.objects.all())
-    ntypesous = factory.Iterator(models.Tbltypecontactsous.objects.all())
-    cnom = factory.Faker('last_name')
-    cprenom = factory.Faker('first_name')
-    cemail = factory.Faker('email')
-    blntps = True
-    blntvq = True
-    bdistributeur = False
-    baccesreservationgolibro = False
-    # nLangue 
-    # nFrequence
+    contact_type = factory.Iterator(models.ContactType.objects.all())
+    sous_contact_type = factory.Iterator(models.ContactSousType.objects.all())
+    last_name = factory.Faker('last_name')
+    first_name = factory.Faker('first_name')
+    email = factory.Faker('email')
+    gst = True
+    qst = True
+    distributer = False
+    golibro_booking_access = False
 
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.Tblcontactsecondaire
+        model = models.User
 
-    cemail = factory.Faker('email')
-    cnom = factory.Faker('last_name')
-    cprenom = factory.Faker('first_name')
+    email = factory.Faker('email')
+    last_name = factory.Faker('last_name')
+    first_name = factory.Faker('first_name')
     password = factory.Faker('password')
     is_superuser = False
     is_staff = False
-    ncontact = factory.SubFactory(ContactFactory)
-    blnenvoimsg = False
-    blnaccesftp = False
-    blnaccesextranet = False
-    blnaccesadmin = False
+    contact = factory.SubFactory(ContactFactory)
+    send_message = False
+    ftp_access = False
+    extranet_access = False
+    is_staff = False
     msrepl_tran_version = factory.Faker('pystr')
-    blnaccesfacturation = False
-    blnaccessepreuve = False
-    blnupdatemainserver = False
-    blnaccessbv = False
-    blnaccessbvadmin = False
-    blnaccessbvacheteur = False
-    blnaccessbvutilisateur = False
-    blnacceptcontract = False
+    billing_access = False
+    examination_access = False
+    update_main_server = False
+    bv_access = False
+    bv_admin_access = False
+    bv_buyer_access = False
+    bv_user_access = False
+    accept_contract = False
 

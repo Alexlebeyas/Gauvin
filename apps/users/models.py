@@ -126,7 +126,7 @@ class Frequency(models.Model):
 
 class Contact(models.Model):
     id = models.AutoField(db_column='icContact', primary_key=True)
-    type = models.ForeignKey('ContactType', models.DO_NOTHING, db_column='nType')
+    contact_type = models.ForeignKey('ContactType', models.DO_NOTHING, db_column='nType')
     sous_contact_type = models.ForeignKey('ContactSousType', models.DO_NOTHING, db_column='nTypeSous', blank=True,
                                           null=True)
     company = models.CharField(db_column='cEntreprise', max_length=100, db_collation='SQL_Latin1_General_CP1_CI_AS',
@@ -293,7 +293,7 @@ class User(AbstractUser):
     update_main_server = models.BooleanField(db_column='blnUpdateMainServer')
     bv_access = models.BooleanField(db_column='blnAccessBv')
     bv_admin_access = models.BooleanField(db_column='blnAccessBvAdmin')
-    bv_acheteur_access = models.BooleanField(db_column='blnAccessBvAcheteur')
+    bv_buyer_access = models.BooleanField(db_column='blnAccessBvAcheteur')
     bv_user_access = models.BooleanField(db_column='blnAccessBvUtilisateur')
     accept_contract = models.BooleanField(db_column='blnAcceptContract')
     dtm_accept_contact = models.DateField(db_column='dtmAcceptContact', blank=True,
