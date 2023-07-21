@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.utils.translation import gettext_lazy as _
-from .models import User, Tblfrequence, Tblcontact, Tblrepresentant, Tbllangue, Tbltypecontactsous, Tbltypecontact
+from .models import User, Frequence, Contact, Representant, Language, ContactSousType, ContactType
 from rest_framework.authtoken.models import TokenProxy
 from django.contrib.auth.models import Group
 
@@ -10,54 +10,52 @@ from django.contrib.auth.models import Group
 class UserAdmin(DjangoUserAdmin):
     model = User
     fieldsets = (
-        (None, {'fields': ('ctelephone1', 'password', )}),
+        (None, {'fields': ('phone_1', 'password', )}),
         (_('Personal info'),
-         {'fields': ('cprenom', 'cnom',)}),
+         {'fields': ('last_name', 'first_name',)}),
         (_('Permissions'),
          {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups')}),
-        (_('Important dates'),
-         {'fields': ('last_login', 'date_joined')}),
     )
 
     add_fieldsets = (
         (None, {
             'classes': ('wide', ),
-            'fields': ('cemail', 'password1', 'password2'),
+            'fields': ('email', 'password1', 'password2'),
         }),
     )
-    list_display = ['icligne', 'cemail',  'is_superuser']
-    search_fields = ('cemail', 'cprenom', 'cnom')
-    ordering = ('cemail', )
+    list_display = ['id', 'email',  'is_superuser']
+    search_fields = ('email', 'first_name', 'last_name')
+    ordering = ('email', )
 
 
-@admin.register(Tblfrequence)
-class TblfrequenceModelAdmin(admin.ModelAdmin):
-    list_display = ['icfrequence', 'cdescription', 'cdescriptionan', 'nmois']
+@admin.register(Frequence)
+class FrequenceModelAdmin(admin.ModelAdmin):
+    list_display = ['id', 'description', 'description_an', 'month']
 
 
-@admin.register(Tblcontact)
-class TblcontactModelAdmin(admin.ModelAdmin):
-    list_display = ['iccontact', 'centreprise', 'csalutation', 'cnom']
+@admin.register(Contact)
+class ContactModelAdmin(admin.ModelAdmin):
+    list_display = ['id', 'company']
 
 
-@admin.register(Tblrepresentant)
-class TblrepresentantModelAdmin(admin.ModelAdmin):
-    list_display = ['icrepresentant', 'cnom', 'ladmin', 'cmotpasse']
+@admin.register(Representant)
+class RepresentantModelAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name', 'admin']
 
 
-@admin.register(Tbllangue)
-class TbllangueModelAdmin(admin.ModelAdmin):
-    list_display = ['iclangue', 'cdescription', 'cdescriptionan']
+@admin.register(Language)
+class LanguageModelAdmin(admin.ModelAdmin):
+    list_display = ['id', 'description', 'description_an']
 
 
-@admin.register(Tbltypecontactsous)
-class TbltypecontactsousModelAdmin(admin.ModelAdmin):
-    list_display = ['ictype', 'cdescription', 'cdescriptionan', 'ntype']
+@admin.register(ContactSousType)
+class ContactSousTypeModelAdmin(admin.ModelAdmin):
+    list_display = ['id', 'description', 'description_an', 'type']
 
 
-@admin.register(Tbltypecontact)
-class TbltypecontactModelAdmin(admin.ModelAdmin):
-    list_display = ['ictype', 'cdescription', 'cdescriptionan', 'lsysteme', 'ssma_timestamp']
+@admin.register(ContactType)
+class ContactTypeModelAdmin(admin.ModelAdmin):
+    list_display = ['id', 'description', 'description_an', 'system']
 
 
 admin.site.unregister(Group)
