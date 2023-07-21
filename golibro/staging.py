@@ -1,4 +1,6 @@
-from .settings import *
+import os
+
+from .base import *  # noqa
 
 ALLOWED_HOSTS = []
 PROJECT_PROTOCOL = 'https://'
@@ -6,9 +8,7 @@ PROJECT_DOMAIN = ''
 PROJECT_URI = "".join((PROJECT_PROTOCOL, PROJECT_DOMAIN))
 SECRET_KEY = os.environ['SECRET_KEY']
 
-DEBUG = TEMPLATE_DEBUG = True
-
-MIDDLEWARE += ('whitenoise.middleware.WhiteNoiseMiddleware',)
+DEBUG = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'mailhog'  # Mailhog Container

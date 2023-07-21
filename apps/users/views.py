@@ -1,28 +1,24 @@
-from rest_framework.generics import ListAPIView
-from rest_framework.views import APIView
-from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.generics import RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-from rest_framework.permissions import IsAuthenticated
 from django.core.mail import send_mail
 
 from .serializers import UserModelSerializer
-from .models import Tblcontactsecondaire as User
-
+from .models import User
 
 # Create your views here.
-class MeView(ListAPIView):
+class MeView(RetrieveAPIView):
     """Display profile for current user"""
-    def list(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         queryset = User.objects.get(pk=request.user.pk)
         serializer = self.get_serializer(queryset, many=False)
         return Response(serializer.data)
     serializer_class = UserModelSerializer
 
 
-class MailhogTestView(ListAPIView):
+class MailhogTestView(RetrieveAPIView):
     """Display profile for current user"""
-    def list(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         queryset = User.objects.get(pk=request.user.pk)
         serializer = self.get_serializer(queryset, many=False)
         send_mail(

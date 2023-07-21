@@ -15,16 +15,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-x&z31ih$!*6noe*rbt5bzjx-45-p_$oj9hkpb1y(p^k&)i$(_$'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mailhog' # Mailhog Container
-EMAIL_PORT = '1025'
-
-ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -40,7 +30,6 @@ INSTALLED_APPS = [
     'coreapi',
     'drf_yasg',
     'drf_standardized_errors',
-    'sslserver',
 
     'apps.crontasks',
     'apps.users',
@@ -101,7 +90,6 @@ CACHES = {
 }
 
 # For ratelimit doc https://www.django-rest-framework.org/api-guide/throttling/
-
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -117,8 +105,8 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.UserRateThrottle'
     ],
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '100/day',
-        'user': '1000/day'
+        'anon': '10/minute',
+        'user': '100/minute'
     }
 }
 
@@ -131,19 +119,17 @@ USE_SESSION_AUTH = True
 
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
+SECURE_SSL_REDIRECT = True
 LOGOUT_URL = 'rest_framework:logout'
 LOGIN_URL = 'rest_framework:login'
 
-AUTH_USER_MODEL = 'users.Tblcontactsecondaire'
+AUTH_USER_MODEL = 'users.User'
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
 ]
 
-
 CORS_ALLOW_ALL_ORIGINS = True  # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = ['http://localhost:3030',] # If this is used, then not need to use `CORS_ALLOW_ALL_ORIGINS = True`
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
@@ -176,7 +162,7 @@ CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
-    "USER_ID_FIELD": "icligne",
+    "USER_ID_FIELD": "id",
     "AUTH_HEADER_TYPES": ("Bearer",),
     "SLIDING_TOKEN_LIFETIME": timedelta(minutes=5),
     "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
