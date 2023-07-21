@@ -180,8 +180,8 @@ class Contact(models.Model):
     reminder_datetime = models.DateTimeField(db_column='dRappel', blank=True, null=True)  # Field name made lowercase.
     frequency = models.ForeignKey('Frequency', models.DO_NOTHING, db_column='nFrequence', blank=True,
                                    null=True)  # Field name made lowercase.
-    birth_date = models.DateTimeField(db_column='dNaissance', blank=True, null=True)  # Field name made lowercase.
-    birth_date_2 = models.DateTimeField(db_column='dNaissance2', blank=True, null=True)  # Field name made lowercase.
+    birth_date = models.DateField(db_column='dNaissance', blank=True, null=True)  # Field name made lowercase.
+    birth_date_2 = models.DateField(db_column='dNaissance2', blank=True, null=True)  # Field name made lowercase.
     cellphone_3 = models.CharField(db_column='cTelephone3', max_length=10, db_collation='SQL_Latin1_General_CP1_CI_AS',
                                    blank=True, null=True)  # Field name made lowercase.
     ext_3 = models.CharField(db_column='cPoste3', max_length=5, db_collation='SQL_Latin1_General_CP1_CI_AS',
@@ -273,8 +273,8 @@ class User(AbstractUser):
                                    blank=True, null=True)  # Field name made lowercase.
     comment = models.TextField(db_column='mCommentaire', db_collation='SQL_Latin1_General_CP1_CI_AS', blank=True,
                                     null=True)  # Field name made lowercase.
-    birth_date = models.DateTimeField(db_column='dNaissance', blank=True, null=True)  # Field name made lowercase.
-    birth_date_2 = models.DateTimeField(db_column='dNaissance2', blank=True, null=True)  # Field name made lowercase.
+    birth_date = models.DateField(db_column='dNaissance', blank=True, null=True)  # Field name made lowercase.
+    birth_date_2 = models.DateField(db_column='dNaissance2', blank=True, null=True)  # Field name made lowercase.
     username = models.CharField(db_column='strUsername', max_length=50, db_collation='SQL_Latin1_General_CP1_CI_AS',
                                    blank=True, null=True)  # Field name made lowercase.
     strpassword = models.CharField(db_column='strPassword', max_length=50, db_collation='SQL_Latin1_General_CP1_CI_AS',
