@@ -75,7 +75,8 @@ docker-compose down
 ~~~~
 
 ## To run linter :
-We use Flake8 and Pylint for linter, and .pylintrc as pylint settings and setup.cg as flake8 settings.
+We use Flake8 and Pylint for the linter. .pylintrc and setup.cg 
+files are used for pylint and flake8 parameters respectively. 
 Just run this command.
 ~~~~
 docker exec -it django-golibro make lint
