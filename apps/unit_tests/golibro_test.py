@@ -1,15 +1,15 @@
 from rest_framework.test import APITestCase
-from apps.users.models import ContactType, ContactSousType
+from apps.users.models import ContactType, ContactSubType
 
 class GolibroTestCase(APITestCase):
     @classmethod
     def setUpTestData(cls):
-        ContactType.objects.create(ictype=1, cdescription='Client', cdescriptionan='Client', lsysteme=1)
-        ContactType.objects.create(ictype=2, cdescription='Fournisseur', cdescriptionan='Supplier', lsysteme=1)
-        ContactType.objects.create(ictype=3, cdescription='Employé', cdescriptionan='Employee', lsysteme=1)
-        ContactType.objects.create(ictype=4, cdescription='Prospect', cdescriptionan='Prospect', lsysteme=1)
+        ContactType.objects.create(id=1, description='Client', description_en='Client', is_system=1)
+        ContactType.objects.create(id=2, description='Fournisseur', description_en='Supplier', is_system=1)
+        ContactType.objects.create(id=3, description='Employé', description_en='Employee', is_system=1)
+        ContactType.objects.create(id=4, description='Prospect', description_en='Prospect', is_system=1)
 
-        ContactSousType.objects.create(ictype=1, cdescription='(aucun)', cdescriptionan='(none)')
-        ContactSousType.objects.create(ictype=5, cdescription='Gouvernement', cdescriptionan='Supplier')
-        ContactSousType.objects.create(ictype=6, cdescription='municipale', cdescriptionan='municipale')
-        ContactSousType.objects.create(ictype=7, cdescription='scolaire', cdescriptionan='scolaire')
+        ContactSubType.objects.create(id=1, description='(aucun)', description_en='(none)')
+        ContactSubType.objects.create(id=5, description='Gouvernement', description_en='Supplier')
+        ContactSubType.objects.create(id=6, description='municipale', description_en='municipale')
+        ContactSubType.objects.create(id=7, description='scolaire', description_en='scolaire')

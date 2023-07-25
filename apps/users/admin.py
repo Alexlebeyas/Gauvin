@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group
 from django.utils.translation import gettext_lazy as _
 from rest_framework.authtoken.models import TokenProxy
 
-from .models import User, Frequency, Contact, Representant, Language, ContactSousType, ContactType
+from .models import User, Frequency, Contact, Representative, Language, ContactSubType, ContactType
 
 
 @admin.register(User)
@@ -31,7 +31,7 @@ class UserAdmin(DjangoUserAdmin):
 
 @admin.register(Frequency)
 class FrequencyModelAdmin(admin.ModelAdmin):
-    list_display = ['id', 'description', 'description_an', 'month']
+    list_display = ['id', 'description', 'description_en', 'month']
 
 
 @admin.register(Contact)
@@ -39,24 +39,24 @@ class ContactModelAdmin(admin.ModelAdmin):
     list_display = ['id', 'company']
 
 
-@admin.register(Representant)
-class RepresentantModelAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'admin']
+@admin.register(Representative)
+class RepresentativeModelAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name', 'is_admin']
 
 
 @admin.register(Language)
 class LanguageModelAdmin(admin.ModelAdmin):
-    list_display = ['id', 'description', 'description_an']
+    list_display = ['id', 'description', 'description_en']
 
 
-@admin.register(ContactSousType)
-class ContactSousTypeModelAdmin(admin.ModelAdmin):
-    list_display = ['id', 'description', 'description_an', 'type']
+@admin.register(ContactSubType)
+class ContactSubTypeModelAdmin(admin.ModelAdmin):
+    list_display = ['id', 'description', 'description_en', 'contact_type_id']
 
 
 @admin.register(ContactType)
 class ContactTypeModelAdmin(admin.ModelAdmin):
-    list_display = ['id', 'description', 'description_an', 'system']
+    list_display = ['id', 'description', 'description_en', 'is_system']
 
 
 admin.site.unregister(Group)

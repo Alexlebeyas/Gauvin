@@ -2,17 +2,17 @@ from django.urls import include, path, reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 import factory
+from factory.django import DjangoModelFactory
+
+from apps.users import models
 
 
-from . import models
-
-
-class ContactFactory(factory.django.DjangoModelFactory):
+class ContactFactory(DjangoModelFactory):
     class Meta:
-        model = models.User
+        model = models.Contact
 
     contact_type = factory.Iterator(models.ContactType.objects.all())
-    sous_contact_type = factory.Iterator(models.ContactSousType.objects.all())
+    sous_contact_type = factory.Iterator(models.ContactSubType.objects.all())
     last_name = factory.Faker('last_name')
     first_name = factory.Faker('first_name')
     email = factory.Faker('email')
@@ -21,7 +21,7 @@ class ContactFactory(factory.django.DjangoModelFactory):
     distributer = False
     golibro_booking_access = False
 
-class UserFactory(factory.django.DjangoModelFactory):
+class UserFactory(DjangoModelFactory):
     class Meta:
         model = models.User
 
@@ -32,17 +32,17 @@ class UserFactory(factory.django.DjangoModelFactory):
     is_superuser = False
     is_staff = False
     contact = factory.SubFactory(ContactFactory)
-    send_message = False
-    ftp_access = False
-    extranet_access = False
+    can_send_message = False
+    has_ftp_access = False
+    has_extranet_access = False
     is_staff = False
     msrepl_tran_version = factory.Faker('pystr')
-    billing_access = False
-    examination_access = False
-    update_main_server = False
-    bv_access = False
-    bv_admin_access = False
-    bv_buyer_access = False
-    bv_user_access = False
-    accept_contract = False
+    has_billing_access = False
+    has_examination_access = False
+    has_update_main_server = False
+    has_bv_access = False
+    has_bv_admin_access = False
+    has_bv_buyer_access = False
+    has_bv_user_access = False
+    can_accept_contract = False
 

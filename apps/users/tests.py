@@ -1,8 +1,9 @@
 from django.urls import include, path, reverse
 from rest_framework import status
 from django.contrib.auth.hashers import make_password
+
 from apps.unit_tests.golibro_test import GolibroTestCase
-from . import factories
+from apps.users import factories
 
 
 class LoginTest(GolibroTestCase):

@@ -46,25 +46,25 @@ class ContactType(models.Model):
     description = models.CharField(db_column='cDescription', max_length=50,
                                    db_collation='SQL_Latin1_General_CP1_CI_AS', blank=True,
                                    null=True)
-    description_an = models.CharField(db_column='cDescriptionAn', max_length=50,
+    description_en = models.CharField(db_column='cDescriptionAn', max_length=50,
                                       db_collation='SQL_Latin1_General_CP1_CI_AS', blank=True,
                                       null=True)
-    system = models.BooleanField(db_column='lSysteme', blank=True, null=True)
+    is_system = models.BooleanField(db_column='lSysteme', blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'tblTypeContact'
 
 
-class ContactSousType(models.Model):
+class ContactSubType(models.Model):
     id = models.AutoField(db_column='icType', primary_key=True)
     description = models.CharField(db_column='cDescription', max_length=50,
                                    db_collation='SQL_Latin1_General_CP1_CI_AS', blank=True,
                                    null=True)
-    description_an = models.CharField(db_column='cDescriptionAn', max_length=50,
+    description_en = models.CharField(db_column='cDescriptionAn', max_length=50,
                                       db_collation='SQL_Latin1_General_CP1_CI_AS', blank=True,
                                       null=True)
-    type = models.IntegerField(db_column='nType', blank=True, null=True)
+    contact_type_id = models.IntegerField(db_column='nType', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -76,7 +76,7 @@ class Language(models.Model):
     description = models.CharField(db_column='cDescription', max_length=50,
                                    db_collation='SQL_Latin1_General_CP1_CI_AS', blank=True,
                                    null=True)
-    description_an = models.CharField(db_column='cDescriptionAn', max_length=50,
+    description_en = models.CharField(db_column='cDescriptionAn', max_length=50,
                                       db_collation='SQL_Latin1_General_CP1_CI_AS', blank=True,
                                       null=True)
 
@@ -85,24 +85,24 @@ class Language(models.Model):
         db_table = 'tblLangue'
 
 
-class Representant(models.Model):
+class Representative(models.Model):
     id = models.AutoField(db_column='icRepresentant', primary_key=True)
     name = models.CharField(db_column='cNom', max_length=50, db_collation='SQL_Latin1_General_CP1_CI_AS', blank=True,
                             null=True)
-    admin = models.BooleanField(db_column='lAdmin', blank=True, null=True)
+    is_admin = models.BooleanField(db_column='lAdmin', blank=True, null=True)
     password = models.CharField(db_column='cMotPasse', max_length=50, db_collation='SQL_Latin1_General_CP1_CI_AS',
                                 blank=True, null=True)
     option = models.BooleanField(db_column='lOption', blank=True, null=True)
     signature = models.TextField(db_column='mSignature', db_collation='SQL_Latin1_General_CP1_CI_AS', blank=True,
                                  null=True)
     security_group = models.IntegerField(db_column='fkSecuriteGroupe')
-    golibro = models.BooleanField(db_column='lGOLIBRO', blank=True, null=True)
-    acc_comptable = models.BooleanField(db_column='lAccComptable', blank=True, null=True)
-    client_account = models.BooleanField(db_column='bCompteClient')
+    is_golibro = models.BooleanField(db_column='lGOLIBRO', blank=True, null=True)
+    is_acc_comptable = models.BooleanField(db_column='lAccComptable', blank=True, null=True)
+    is_client_account = models.BooleanField(db_column='bCompteClient')
     email = models.EmailField(db_column='cEmail', max_length=50, db_collation='SQL_Latin1_General_CP1_CI_AS',
                               blank=True, null=True)
-    dist_complete = models.BooleanField(db_column='bDistComplete', blank=True, null=True)
-    hourly_access = models.BooleanField(db_column='bAccesHoraire')
+    is_dist_complete = models.BooleanField(db_column='bDistComplete', blank=True, null=True)
+    has_hourly_access = models.BooleanField(db_column='bAccesHoraire')
 
     class Meta:
         managed = False
@@ -114,7 +114,7 @@ class Frequency(models.Model):
     description = models.CharField(db_column='cDescription', max_length=50,
                                    db_collation='SQL_Latin1_General_CP1_CI_AS', blank=True,
                                    null=True)
-    description_an = models.CharField(db_column='cDescriptionAn', max_length=50,
+    description_en = models.CharField(db_column='cDescriptionAn', max_length=50,
                                       db_collation='SQL_Latin1_General_CP1_CI_AS', blank=True,
                                       null=True)
     month = models.IntegerField(db_column='nMois', blank=True, null=True)
@@ -126,8 +126,8 @@ class Frequency(models.Model):
 
 class Contact(models.Model):
     id = models.AutoField(db_column='icContact', primary_key=True)
-    contact_type = models.ForeignKey('ContactType', models.DO_NOTHING, db_column='nType')
-    sous_contact_type = models.ForeignKey('ContactSousType', models.DO_NOTHING, db_column='nTypeSous', blank=True,
+    contact_type_id = models.ForeignKey('ContactType', models.DO_NOTHING, db_column='nType')
+    sous_contact_type_id = models.ForeignKey('ContactSubType', models.DO_NOTHING, db_column='nTypeSous', blank=True,
                                           null=True)
     company = models.CharField(db_column='cEntreprise', max_length=100, db_collation='SQL_Latin1_General_CP1_CI_AS',
                                blank=True, null=True)
@@ -142,7 +142,7 @@ class Contact(models.Model):
                                  blank=True, null=True)
     address_2 = models.CharField(db_column='cAdresse2', max_length=50, db_collation='SQL_Latin1_General_CP1_CI_AS',
                                  blank=True, null=True)
-    town = models.CharField(db_column='cVille', max_length=50, db_collation='SQL_Latin1_General_CP1_CI_AS',
+    city = models.CharField(db_column='cVille', max_length=50, db_collation='SQL_Latin1_General_CP1_CI_AS',
                             blank=True, null=True)
     province = models.CharField(db_column='cProvince', max_length=50, db_collation='SQL_Latin1_General_CP1_CI_AS',
                                 blank=True, null=True)
@@ -156,7 +156,7 @@ class Contact(models.Model):
                                blank=True, null=True)
     ext_2 = models.CharField(db_column='cPoste2', max_length=5, db_collation='SQL_Latin1_General_CP1_CI_AS',
                              blank=True, null=True)
-    pagette = models.CharField(db_column='cPagette', max_length=10, db_collation='SQL_Latin1_General_CP1_CI_AS',
+    pager = models.CharField(db_column='cPagette', max_length=10, db_collation='SQL_Latin1_General_CP1_CI_AS',
                                blank=True, null=True)
     cellphone = models.CharField(db_column='cCellulaire', max_length=10, db_collation='SQL_Latin1_General_CP1_CI_AS',
                                  blank=True, null=True)
@@ -167,9 +167,9 @@ class Contact(models.Model):
                               blank=True, null=True)
     website = models.CharField(db_column='cSiteWeb', max_length=100, db_collation='SQL_Latin1_General_CP1_CI_AS',
                                blank=True, null=True)
-    language = models.ForeignKey('Language', models.DO_NOTHING, db_column='nLangue', blank=True,
+    language_id = models.ForeignKey('Language', models.DO_NOTHING, db_column='nLangue', blank=True,
                                  null=True)
-    representative = models.ForeignKey('Representant', models.DO_NOTHING, db_column='nRepresentant', blank=True,
+    representative_id = models.ForeignKey('Representative', models.DO_NOTHING, db_column='nRepresentant', blank=True,
                                        null=True)
     note = models.TextField(db_column='mNote', db_collation='SQL_Latin1_General_CP1_CI_AS', blank=True,
                             null=True)
@@ -177,10 +177,10 @@ class Contact(models.Model):
                                          db_collation='SQL_Latin1_General_CP1_CI_AS', blank=True,
                                          null=True)
     open_datetime = models.DateTimeField(db_column='dOuverture', blank=True, null=True)
-    updated_datetime = models.DateTimeField(db_column='dModification', blank=True,
+    updated_at = models.DateTimeField(db_column='dModification', blank=True,
                                             null=True)
     reminder_datetime = models.DateTimeField(db_column='dRappel', blank=True, null=True)
-    frequency = models.ForeignKey('Frequency', models.DO_NOTHING, db_column='nFrequence', blank=True,
+    frequency_id = models.ForeignKey('Frequency', models.DO_NOTHING, db_column='nFrequence', blank=True,
                                   null=True)
     birth_date = models.DateField(db_column='dNaissance', blank=True, null=True)
     birth_date_2 = models.DateField(db_column='dNaissance2', blank=True, null=True)
@@ -201,11 +201,11 @@ class Contact(models.Model):
     num = models.IntegerField(db_column='nNum', blank=True, null=True)
     cost = models.FloatField(db_column='nCout', blank=True, null=True)
     copy_add = models.FloatField(db_column='nCopieAdd', blank=True, null=True)
-    gst = models.BooleanField(db_column='blnTPS')
-    qst = models.BooleanField(db_column='blnTVQ')
+    has_gst = models.BooleanField(db_column='blnTPS')
+    has_qst = models.BooleanField(db_column='blnTVQ')
     term_id = models.IntegerField(db_column='intTermeID', blank=True, null=True)
     type_taxe_id = models.IntegerField(db_column='intTypeTaxeID', blank=True, null=True)
-    distributer = models.BooleanField(db_column='bDistributeur')
+    is_distributer = models.BooleanField(db_column='bDistributeur')
     distrib_price_lbs = models.FloatField(db_column='nDistribPrixLbs', blank=True,
                                           null=True)
     profit_margin = models.FloatField(db_column='nMargeBenefice', blank=True, null=True)
@@ -225,21 +225,21 @@ class Contact(models.Model):
     edit_cvr_fees = models.FloatField(db_column='nFraisModifCVR', blank=True, null=True)
     edit_txt_fees = models.FloatField(db_column='nFraisModifTXT', blank=True, null=True)
     add_copy_fees = models.FloatField(db_column='nFraisCopieAdd', blank=True, null=True)
-    limit_credit = models.FloatField(db_column='nLimiteCredit', blank=True, null=True)
-    actual_sold = models.FloatField(db_column='nSoldeActuel', blank=True, null=True)
+    credit_limit = models.FloatField(db_column='nLimiteCredit', blank=True, null=True)
+    current_sold = models.FloatField(db_column='nSoldeActuel', blank=True, null=True)
     insured_amount = models.FloatField(db_column='nMntAssure', blank=True, null=True)
-    export_amount = models.FloatField(db_column='nMntExporte', blank=True, null=True)
-    marginpostcanada = models.FloatField(db_column='nMargePosteCanada', blank=True,
+    exported_amount = models.FloatField(db_column='nMntExporte', blank=True, null=True)
+    margin_post_canada = models.FloatField(db_column='nMargePosteCanada', blank=True,
                                          null=True)
-    marginflatratepod = models.FloatField(db_column='nMargeFlatRatePOD', blank=True,
+    margin_flat_rate_pod = models.FloatField(db_column='nMargeFlatRatePOD', blank=True,
                                           null=True)
-    bookmark = models.BooleanField(db_column='bSignet', blank=True, null=True)
+    is_bookmark = models.BooleanField(db_column='bSignet', blank=True, null=True)
     base_bookmark = models.FloatField(db_column='nSignetBase', blank=True, null=True)
     bookmark_the_100 = models.FloatField(db_column='nSignetLe100', blank=True, null=True)
-    bcvraplat = models.BooleanField(db_column='bCVRAPlat', blank=True, null=True)
+    is_bcvraplat = models.BooleanField(db_column='bCVRAPlat', blank=True, null=True)
     ncvraplatle10 = models.FloatField(db_column='nCVRAPlatLe10', blank=True, null=True)
     dinactif = models.DateTimeField(db_column='dInactif', blank=True, null=True)
-    golibro_booking_access = models.BooleanField(db_column='bAccesReservationGolibro')
+    has_golibro_booking_access = models.BooleanField(db_column='bAccesReservationGolibro')
     api_billing_frequency = models.IntegerField(db_column='nFrequenceFacturationAPI', blank=True,
                                                 null=True)
 
@@ -255,7 +255,7 @@ class User(AbstractUser):
     date_joined = None
     last_login = None
     id = models.AutoField(db_column='icLigne', primary_key=True)
-    contact = models.ForeignKey(Contact, models.DO_NOTHING, db_column='nContact')
+    contact_id = models.ForeignKey(Contact, models.DO_NOTHING, db_column='nContact')
     greeting = models.CharField(db_column='cSalutation', max_length=20, db_collation='SQL_Latin1_General_CP1_CI_AS',
                                 blank=True, null=True)
     last_name = models.CharField(db_column='cNom', max_length=50, db_collation='SQL_Latin1_General_CP1_CI_AS',
@@ -283,25 +283,25 @@ class User(AbstractUser):
                                 blank=True, null=True)
     strpassword = models.CharField(db_column='strPassword', max_length=50, db_collation='SQL_Latin1_General_CP1_CI_AS',
                                    blank=True, null=True)
-    send_message = models.BooleanField(db_column='blnEnvoiMSG')
-    ftp_access = models.BooleanField(db_column='blnAccesFTP')
-    extranet_access = models.BooleanField(db_column='blnAccesExtranet')
+    can_send_message = models.BooleanField(db_column='blnEnvoiMSG')
+    has_ftp_access = models.BooleanField(db_column='blnAccesFTP')
+    has_extranet_access = models.BooleanField(db_column='blnAccesExtranet')
     is_staff = models.BooleanField(db_column='blnAccesAdmin')
     msrepl_tran_version = models.CharField(max_length=36)
-    billing_access = models.BooleanField(db_column='blnAccesFacturation')
-    examination_access = models.BooleanField(db_column='blnAccessEpreuve')
-    update_main_server = models.BooleanField(db_column='blnUpdateMainServer')
-    bv_access = models.BooleanField(db_column='blnAccessBv')
-    bv_admin_access = models.BooleanField(db_column='blnAccessBvAdmin')
-    bv_buyer_access = models.BooleanField(db_column='blnAccessBvAcheteur')
-    bv_user_access = models.BooleanField(db_column='blnAccessBvUtilisateur')
-    accept_contract = models.BooleanField(db_column='blnAcceptContract')
+    has_billing_access = models.BooleanField(db_column='blnAccesFacturation')
+    has_examination_access = models.BooleanField(db_column='blnAccessEpreuve')
+    has_update_main_server = models.BooleanField(db_column='blnUpdateMainServer')
+    has_bv_access = models.BooleanField(db_column='blnAccessBv')
+    has_bv_admin_access = models.BooleanField(db_column='blnAccessBvAdmin')
+    has_bv_acheteur_access = models.BooleanField(db_column='blnAccessBvAcheteur')
+    has_bv_user_access = models.BooleanField(db_column='blnAccessBvUtilisateur')
+    can_accept_contract = models.BooleanField(db_column='blnAcceptContract')
     dtm_accept_contact = models.DateField(db_column='dtmAcceptContact', blank=True,
                                           null=True)
     str_password_encrypt = models.CharField(db_column='strPasswordEncrypt', max_length=100,
                                             db_collation='SQL_Latin1_General_CP1_CI_AS', blank=True,
                                             null=True)
-    api_access = models.BooleanField(db_column='blnAccessApi', blank=True, null=True)
+    has_api_access = models.BooleanField(db_column='blnAccessApi', blank=True, null=True)
     str_api_password = models.CharField(db_column='strPasswordAPI', max_length=64,
                                         db_collation='SQL_Latin1_General_CP1_CI_AS', blank=True,
                                         null=True)
