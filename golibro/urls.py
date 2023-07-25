@@ -41,7 +41,7 @@ def root_redirect(request):
 
 # urlpatterns required for settings values
 urlpatterns = i18n_patterns(
-    path(r'^swagger(?P<format>\.json|\.yaml)', SchemaView.without_ui(cache_timeout=0), name='schema-json'),
+    path('swagger(?P<format>\.json|\.yaml)', SchemaView.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', SchemaView.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', SchemaView.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 
