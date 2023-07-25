@@ -127,7 +127,7 @@ class Frequency(models.Model):
 class Contact(models.Model):
     id = models.AutoField(db_column='icContact', primary_key=True)
     contact_type_id = models.ForeignKey('ContactType', models.DO_NOTHING, db_column='nType')
-    sous_contact_type_id = models.ForeignKey('ContactSubType', models.DO_NOTHING, db_column='nTypeSous', blank=True,
+    contact_sub_type_id = models.ForeignKey('ContactSubType', models.DO_NOTHING, db_column='nTypeSous', blank=True,
                                           null=True)
     company = models.CharField(db_column='cEntreprise', max_length=100, db_collation='SQL_Latin1_General_CP1_CI_AS',
                                blank=True, null=True)
