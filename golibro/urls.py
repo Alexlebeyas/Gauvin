@@ -4,7 +4,7 @@ from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.shortcuts import redirect
-from django.urls import include, path
+from django.urls import include, re_path, path
 from django.utils.translation import gettext_lazy as _
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
@@ -36,11 +36,11 @@ def root_redirect(request):
 
 # urlpatterns required for settings values
 urlpatterns = i18n_patterns(
-    path('swagger(?P<format>\.json|\.yaml)', SchemaView.without_ui(cache_timeout=0), name='schema-json'),
+    re_path('swagger(?P<format>\.json|\.yaml)', SchemaView.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', SchemaView.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', SchemaView.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 
-    path('cached/swagger(?P<format>.json|.yaml)', SchemaView.without_ui(cache_timeout=None), name='cschema-json'),
+    re_path('cached/swagger(?P<format>.json|.yaml)', SchemaView.without_ui(cache_timeout=None), name='cschema-json'),
     path('cached/swagger/', SchemaView.with_ui('swagger', cache_timeout=None), name='cschema-swagger-ui'),
     path('cached/redoc/', SchemaView.with_ui('redoc', cache_timeout=None), name='cschema-redoc'),
 

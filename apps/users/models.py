@@ -52,7 +52,7 @@ class ContactType(models.Model):
     is_system = models.BooleanField(db_column='lSysteme', blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'tblTypeContact'
 
 
@@ -67,7 +67,7 @@ class ContactSubType(models.Model):
     contact_type_id = models.IntegerField(db_column='nType', blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'tblTypeContactSous'
 
 
@@ -81,7 +81,7 @@ class Language(models.Model):
                                       null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'tblLangue'
 
 
@@ -105,7 +105,7 @@ class Representative(models.Model):
     has_hourly_access = models.BooleanField(db_column='bAccesHoraire')
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'tblRepresentant'
 
 
@@ -120,7 +120,7 @@ class Frequency(models.Model):
     month = models.IntegerField(db_column='nMois', blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'tblFrequence'
 
 
@@ -244,7 +244,7 @@ class Contact(models.Model):
                                                 null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'tblContact'
 
 
@@ -293,7 +293,7 @@ class User(AbstractUser):
     has_update_main_server = models.BooleanField(db_column='blnUpdateMainServer')
     has_bv_access = models.BooleanField(db_column='blnAccessBv')
     has_bv_admin_access = models.BooleanField(db_column='blnAccessBvAdmin')
-    has_bv_acheteur_access = models.BooleanField(db_column='blnAccessBvAcheteur')
+    has_bv_buyer_access = models.BooleanField(db_column='blnAccessBvAcheteur')
     has_bv_user_access = models.BooleanField(db_column='blnAccessBvUtilisateur')
     can_accept_contract = models.BooleanField(db_column='blnAcceptContract')
     dtm_accept_contact = models.DateField(db_column='dtmAcceptContact', blank=True,
@@ -305,6 +305,12 @@ class User(AbstractUser):
     str_api_password = models.CharField(db_column='strPasswordAPI', max_length=64,
                                         db_collation='SQL_Latin1_General_CP1_CI_AS', blank=True,
                                         null=True)
+    groups = models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.group', verbose_name='groups')
+    is_active = models.BooleanField(default=True, help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.', verbose_name='active')
+    is_superuser = models.BooleanField(default=False, help_text='Designates that this user has all permissions without explicitly assigning them.', verbose_name='superuser status')
+    password = models.CharField(max_length=128, verbose_name='password')
+    user_permissions = models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.permission', verbose_name='user permissions')
+
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

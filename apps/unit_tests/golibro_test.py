@@ -13,3 +13,9 @@ class GolibroTestCase(APITestCase):
         ContactSubType.objects.create(id=5, description='Gouvernement', description_en='Supplier')
         ContactSubType.objects.create(id=6, description='municipale', description_en='municipale')
         ContactSubType.objects.create(id=7, description='scolaire', description_en='scolaire')
+
+    def get(self, *args, **kwargs):
+        return self.client.get(secure=True, *args, **kwargs)
+
+    def post(self, *args, **kwargs):
+        return self.client.post(secure=True, *args, **kwargs)

@@ -11,15 +11,15 @@ class ContactFactory(DjangoModelFactory):
     class Meta:
         model = models.Contact
 
-    contact_type = factory.Iterator(models.ContactType.objects.all())
-    sous_contact_type = factory.Iterator(models.ContactSubType.objects.all())
+    contact_type_id = factory.Iterator(models.ContactType.objects.all())
+    contact_sub_type_id = factory.Iterator(models.ContactSubType.objects.all())
     last_name = factory.Faker('last_name')
     first_name = factory.Faker('first_name')
     email = factory.Faker('email')
-    gst = True
-    qst = True
-    distributer = False
-    golibro_booking_access = False
+    has_gst = True
+    has_qst = True
+    is_distributer = False
+    has_golibro_booking_access = False
 
 class UserFactory(DjangoModelFactory):
     class Meta:
@@ -31,7 +31,7 @@ class UserFactory(DjangoModelFactory):
     password = factory.Faker('password')
     is_superuser = False
     is_staff = False
-    contact = factory.SubFactory(ContactFactory)
+    contact_id = factory.SubFactory(ContactFactory)
     can_send_message = False
     has_ftp_access = False
     has_extranet_access = False

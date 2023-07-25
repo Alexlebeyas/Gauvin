@@ -71,10 +71,10 @@ DATABASES = {
     "default": {
         "ENGINE": "mssql",
         "NAME": os.environ.get('MSSQL_DB_NAME'),
-        "USER": os.environ.get('MSSQL_SA_USER'),
-        "PASSWORD": os.environ.get('MSSQL_ROOT_PASSWORD'),
+        "USER": os.environ.get('MSSQL_USER'),
+        "PASSWORD": os.environ.get('MSSQL_PASSWORD'),
         "HOST": "mssql2017",
-        "PORT": os.environ.get('MSSQL_PORTS'),
+        "PORT": "1433",
         "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server"},
     },
 }
