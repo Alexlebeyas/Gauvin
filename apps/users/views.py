@@ -18,7 +18,7 @@ class MeView(RetrieveAPIView):
 
 
 class MailhogTestView(RetrieveAPIView):
-    """Display profile for current user"""
+    """Remove this view before produdction deployement. This was to confirm email functio"""
     def get(self, request, *args, **kwargs):
         queryset = User.objects.get(pk=request.user.pk)
         serializer = self.get_serializer(queryset, many=False)

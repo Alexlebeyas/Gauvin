@@ -33,6 +33,7 @@ INSTALLED_APPS = [
 
     'apps.crontasks',
     'apps.users',
+    'apps.common'
 ]
 
 MIDDLEWARE = [

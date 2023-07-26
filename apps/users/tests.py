@@ -7,11 +7,15 @@ from apps.users import factories
 
 
 class LoginTest(GolibroTestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.password = "secret"
+        cls.login_endpoint = reverse("token_get")
+        cls.check_endpoint = reverse("sanity_check")
+
     def setUp(self):
-        self.password = "secret"
         self.user = factories.UserFactory.create(password=make_password(self.password))
-        self.login_endpoint = reverse("token_get")
-        self.check_endpoint = reverse("sanity_check")
 
     def test_invalid_user_login_response(self):
         """Valid email and password gets 400 response status"""
