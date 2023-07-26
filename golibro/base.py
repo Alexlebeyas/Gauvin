@@ -31,9 +31,10 @@ INSTALLED_APPS = [
     'drf_yasg',
     'drf_standardized_errors',
 
+    'apps.common',
     'apps.crontasks',
-    'apps.users',
-    'apps.common'
+    'apps.users'
+
 ]
 
 MIDDLEWARE = [

@@ -8,11 +8,9 @@ from apps.users import factories
 
 class LoginTest(GolibroTestCase):
 
-    @classmethod
-    def setUpTestData(cls):
-        cls.password = "secret"
-        cls.login_endpoint = reverse("token_get")
-        cls.check_endpoint = reverse("sanity_check")
+    password = "secret"
+    login_endpoint = reverse("token_get")
+    check_endpoint = reverse("sanity_check")
 
     def setUp(self):
         self.user = factories.UserFactory.create(password=make_password(self.password))
