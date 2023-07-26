@@ -1,4 +1,6 @@
-from .base import *  # noqa
+import os
+
+from .base import *
 
 ALLOWED_HOSTS = []
 PROJECT_PROTOCOL = 'https://'

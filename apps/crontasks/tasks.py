@@ -13,6 +13,7 @@ logger = logging.getLogger('apps.crontasks')
 def test_task_1():
     logger.warning('Execution de TEST I')
 
+
 @celery.task(base=OnBoundSetUp, run_every=timedelta(seconds=120),
              options={}, relative=False)
 def test_task_2():
