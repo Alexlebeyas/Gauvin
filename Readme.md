@@ -73,3 +73,11 @@ To stop containers you should be in project directory in your terminal and run
 ~~~~
 docker-compose down
 ~~~~
+
+## To run linter :
+We use Flake8 and Pylint for the linter. .pylintrc and setup.cg 
+files are used for pylint and flake8 parameters respectively. 
+Just run this command.
+~~~~
+docker exec -it django-golibro make lint
+~~~~
