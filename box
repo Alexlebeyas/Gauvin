@@ -1,0 +1,197 @@
+#!/usr/bin/env bash
+
+UNAMEOUT="$(uname -s)"
+
+WHITE='\033[1;37m'
+NC='\033[0m'
+
+## Verify operating system is supported...
+case "${UNAMEOUT}" in
+    Linux*)             MACHINE=linux;;
+    Darwin*)            MACHINE=mac;;
+    *)                  MACHINE="UNKNOWN"
+esac
+
+if [ "$MACHINE" == "UNKNOWN" ]; then
+    echo "Unsupported operating system [$(uname -s)]. Box supports macOS, Linux, and Windows (WSL2)." >&2
+
+    exit 1
+fi
+#
+## Define environment variables...
+#export APP_PORT=${APP_PORT:-80}
+export APP_SERVICE=${APP_SERVICE:-"django"}
+export REDIS_SERVICE=${REDIS_SERVICE:-"redis"}
+
+
+# Ensure that Docker is running...
+if ! docker info > /dev/null 2>&1; then
+    echo -e "${WHITE}Docker is not running.${NC}" >&2
+    exit 1
+fi
+
+# Determine if box is currently up...
+PSRESULT="$(docker-compose ps -q)"
+
+if docker-compose ps | grep 'Exit'; then
+    echo -e "${WHITE}Shutting down old box processes...${NC}" >&2
+
+    docker compose down > /dev/null 2>&1
+
+    EXEC="no"
+elif [ -n "$PSRESULT" ]; then
+    EXEC="yes"
+else
+    EXEC="no"
+fi
+
+# Function that outputs Sail is not running...
+function box_is_not_running {
+    echo -e "${WHITE}Box is not running.${NC}" >&2
+    echo "" >&2
+    echo -e "${WHITE}You may box using the following commands:${NC} './box up'" >&2
+
+    exit 1
+}
+
+if [ "$1" == "--help" ]; then
+        echo -e "${WHITE}composer your_command ${NC} will execute 'composer your_command' in you django container, off course need a composer.json file to be present on the root of you project example 'box composer install'"
+        echo -e "${WHITE}down${NC}: shut down the containers"
+        echo -e "${WHITE}--help${NC}: you are looking at it"
+        echo -e "${WHITE}logs${NC}: alias for docker logs on django container [crtl] + C to exit"
+        echo -e "${WHITE}manage your_command${NC}: will execute 'python manage.py your_command' in your django container, example './box manage --help'"
+        echo -e "${WHITE}python your_command${NC}: will execute 'python your_command' in your django container, example './box python -V'"
+        echo -e "${WHITE}ps${NC}: alias for docker ps, listing the current active docker container"
+        echo -e "${WHITE}redis flush${NC}: will flush redis cache"
+        echo -e "${WHITE}redis monitor${NC}: will monitor the redis cache"
+        echo -e "${WHITE}shell${NC}: will prompt you into the django server"
+        echo -e "${WHITE}test${NC}: will start the unit test if exist"
+        echo -e "${WHITE}Up${NC}: start the box"
+        echo -e ""
+        echo -e "For more complex instruction please run them directly with docker (see docker instruction)"
+        exit 1
+fi
+if [ $# -gt 0 ]; then
+    # Source the ".env" file
+    if [ -f ./.env ]; then
+        source ./.env
+    fi
+
+    # Get up
+    if [ "$1" == "up" ]; then
+        shift 1
+        if [ "$EXEC" == "yes" ]; then
+            echo 'Already Up'
+        else
+            echo 'Getting up...'
+            docker compose up -d
+        fi
+
+    #Get Down
+    elif [ "$1" == "down" ]; then
+      shift 1
+      if [ "$EXEC" == "no" ]; then
+        echo 'already down'
+      else
+        echo "shutting down..."
+        docker compose down
+      fi
+
+
+    # Proxy PHP commands to the "php" binary on the application container...
+    elif [ "$1" == "python" ]; then
+        shift 1
+        if [ "$EXEC" == "yes" ]; then
+            docker-compose exec  \
+                -u www-data \
+                "$APP_SERVICE" \
+                python "$@"
+        else
+            box_is_not_running
+        fi
+
+    # Proxy Composer commands to the "composer" binary on the application container...
+    elif [ "$1" == "composer" ]; then
+        shift 1
+
+        if [ "$EXEC" == "yes" ]; then
+            docker-compose exec  \
+                -u www-data \
+                "$APP_SERVICE" \
+                composer "$@"
+        else
+            box_is_not_running
+        fi
+
+    # Proxy Artisan commands to the "artisan" binary on the application container...
+    elif [ "$1" == "manage" ]; then
+        shift 1
+
+        if [ "$EXEC" == "yes" ]; then
+            docker-compose exec \
+                -u www-data \
+                "$APP_SERVICE" \
+                python manage.py "$@"
+        else
+            box_is_not_running
+        fi
+
+    # Proxy the "test" command to the php unit test
+    elif [ "$1" == "test" ]; then
+        shift 1
+
+        if [ "$EXEC" == "yes" ]; then
+            docker-compose exec \
+                -u www-data \
+                "$APP_SERVICE" \
+                python manage.py test "$@"
+        else
+            box_is_not_running
+        fi
+
+
+    # Initiate a Bash shell within the application container...
+    elif [ "$1" == "shell" ] || [ "$1" == "bash" ]; then
+        shift 1
+
+        if [ "$EXEC" == "yes" ]; then
+            docker-compose exec \
+                -u www-data \
+                "$APP_SERVICE" \
+                /bin/bash
+        else
+            box_is_not_running
+        fi
+
+    elif [ "$1" == "ps" ]; then
+        shift 1
+        echo "`docker ps`"
+    elif [ "$1" == "redis" ]; then
+        shift 1
+        if [ "$EXEC" == "yes" ]; then
+          if [ "$1" == "flush" ]; then
+            docker-compose exec \
+                "$REDIS_SERVICE" \
+                 redis-cli FLUSHALL
+          elif [ "$1" == "monitor" ]; then
+            docker-compose exec \
+                "$REDIS_SERVICE" \
+                redis-cli monitor
+          else
+             echo 'unkonwn redis command, please use direct command'
+          fi
+        fi
+    elif [ "$1" == "logs" ]; then
+        shift 1
+        if [ "$EXEC" == "yes" ]; then
+            docker logs -tf $APP_SERVICE-$PROJECT
+        else
+            box_is_not_running
+        fi
+    # Pass unknown commands to the "docker-compose" binary...
+    else
+        echo 'unkonwn command, run `./box --help` to see available commands'
+    fi
+else
+    docker-compose ps
+fi

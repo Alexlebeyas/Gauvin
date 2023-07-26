@@ -19,7 +19,7 @@ docker-compose build django
 
 ## 3. Start containers:
 ~~~~
-docker-compose up
+docker compose up -d
 ~~~~
 
 ### - To list all containers:
@@ -71,7 +71,7 @@ Now everything is ready
 ## To stop all containers :
 To stop containers you should be in project directory in your terminal and run
 ~~~~
-docker-compose down
+docker compose down
 ~~~~
 
 ## To run linter :
@@ -81,3 +81,18 @@ Just run this command.
 ~~~~
 docker exec -it django-golibro make lint
 ~~~~
+
+## Formating
+We recommand to install Black in your IDE. In Pycharm just install https://plugins.jetbrains.com/plugin/14321-blackconnect 
+and run alt+shift+B to format
+or go to settings > tools >  backconnect and allow format on saving
+Do not forget to set line length to 120
+
+## To run test :
+Please make sure test passes before any commits
+~~~~
+docker exec -it django-golibro python manage.py test
+~~~~
+
+##box tool
+A small executable file was build to give you docker shortcuts. ./box --help to get the details

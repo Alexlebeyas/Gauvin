@@ -1,4 +1,4 @@
-from django.urls import include, path, reverse
+from django.urls import reverse
 from rest_framework import status
 from django.contrib.auth.hashers import make_password
 
