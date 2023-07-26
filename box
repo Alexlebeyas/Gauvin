@@ -58,6 +58,7 @@ if [ "$1" == "--help" ]; then
         echo -e "${WHITE}composer your_command ${NC} will execute 'composer your_command' in you django container, off course need a composer.json file to be present on the root of you project example 'box composer install'"
         echo -e "${WHITE}down${NC}: shut down the containers"
         echo -e "${WHITE}--help${NC}: you are looking at it"
+        echo -e "${WHITE}lint${NC}: launch linter"
         echo -e "${WHITE}logs${NC}: alias for docker logs on django container [crtl] + C to exit"
         echo -e "${WHITE}manage your_command${NC}: will execute 'python manage.py your_command' in your django container, example './box manage --help'"
         echo -e "${WHITE}python your_command${NC}: will execute 'python your_command' in your django container, example './box python -V'"
@@ -98,7 +99,6 @@ if [ $# -gt 0 ]; then
       fi
 
 
-    # Proxy PHP commands to the "php" binary on the application container...
     elif [ "$1" == "python" ]; then
         shift 1
         if [ "$EXEC" == "yes" ]; then
@@ -106,6 +106,17 @@ if [ $# -gt 0 ]; then
                 -u www-data \
                 "$APP_SERVICE" \
                 python "$@"
+        else
+            box_is_not_running
+        fi
+
+    elif [ "$1" == "lint" ]; then
+        shift 1
+        if [ "$EXEC" == "yes" ]; then
+            docker-compose exec  \
+                -u www-data \
+                "$APP_SERVICE" \
+                make lint "$@"
         else
             box_is_not_running
         fi
@@ -136,7 +147,6 @@ if [ $# -gt 0 ]; then
             box_is_not_running
         fi
 
-    # Proxy the "test" command to the php unit test
     elif [ "$1" == "test" ]; then
         shift 1
 

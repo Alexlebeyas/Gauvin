@@ -2,7 +2,7 @@ from django.urls import reverse
 from rest_framework import status
 from django.contrib.auth.hashers import make_password
 
-from apps.unit_tests.golibro_test import GolibroTestCase
+from apps.common.tests.golibro import GolibroTestCase
 from apps.users import factories
 
 
@@ -10,7 +10,6 @@ class LoginTest(GolibroTestCase):
 
     password = "secret"
     login_endpoint = reverse("token_get")
-    check_endpoint = reverse("sanity_check")
 
     def setUp(self):
         self.user = factories.UserFactory.create(password=make_password(self.password))
@@ -46,9 +45,3 @@ class LoginTest(GolibroTestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("refresh", response.data)
         self.assertIn("access", response.data)
-
-    def test_check_returns_ok(self):
-        """check call my returns ok"""
-        response = self.get(self.check_endpoint)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual("OK", response.data)

@@ -50,6 +50,7 @@ urlpatterns = i18n_patterns(
     path("docs/", include_docs_urls(title="golibro Api")),
     path("", root_redirect),
     path("api/", include("apps.users.urls")),
+    path("api/", include("apps.common.urls")),
     path("accounts/", include("rest_framework.urls", namespace="rest_framework")),
     path(_("admin/"), admin.site.urls),
     prefix_default_language=False,
