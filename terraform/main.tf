@@ -39,3 +39,34 @@ resource "azurerm_container_app_environment" "container-app-environment" {
   log_analytics_workspace_id = azurerm_log_analytics_workspace.log-analytics-workspace.id
 }
 
+# QA Container App ------------------------------------------------------------
+resource "azurerm_container_app" "qa" {
+  count                        = terraform.workspace == "non-prod" ? 1 : 0
+  name                         = "container-app-qa"
+  container_app_environment_id = azurerm_container_app_environment.container-app-environment.id
+  resource_group_name          = azurerm_resource_group.resource-group.name
+  revision_mode                = "Single"
+
+  template {
+    min_replicas = 1
+    max_replicas = 1
+
+    container {
+      name   = "container-app-qa"
+      image  = "mcr.microsoft.com/azuredocs/containerapps-helloworld:latest"
+      cpu    = 0.25
+      memory = "0.5Gi"
+    }
+  }
+
+  ingress {
+    allow_insecure_connections = false
+    external_enabled           = true
+    target_port                = 80
+    traffic_weight {
+      percentage = 100
+    }
+  }
+}
+
+
