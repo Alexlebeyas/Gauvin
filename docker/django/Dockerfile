@@ -1,4 +1,4 @@
-FROM python:3.10.6-slim
+FROM --platform=linux/amd64 python:3.10.6-slim
 COPY . /golibro
 WORKDIR /golibro
 RUN apt-get update -y && apt-get install libjpeg-dev libproj-dev gettext libgettextpo-dev netcat -y
