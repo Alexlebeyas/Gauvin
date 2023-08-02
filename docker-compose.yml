@@ -6,10 +6,10 @@ services:
       dockerfile: ./docker/django/Dockerfile
     container_name: django-${PROJECT}  
     environment:
-      - MSSQL_SA_USER
+      - MSSQL_USER
       - MSSQL_DB_NAME
-      - MSSQL_PORTS
-      - MSSQL_ROOT_PASSWORD
+      - MSSQL_PASSWORD
+
     ports:
       - "8000:8000"
     volumes:

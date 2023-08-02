@@ -6,15 +6,11 @@ PROJECT_DOMAIN = ""
 PROJECT_URI = "".join((PROJECT_PROTOCOL, PROJECT_DOMAIN))
 
 
-DEBUG = False
+DEBUG = True
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_USE_TLS = True
-EMAIL_HOST = ""
-EMAIL_PORT = 587
-SERVER_EMAIL = EMAIL_HOST_USER = os.environ.get("EMAIL")
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD")
-DEFAULT_FROM_EMAIL = ""
+EMAIL_HOST = "mailhog"  # Mailhog Container
+EMAIL_PORT = "1025"
 
 AUTH_PASSWORD_VALIDATORS = [
     {
