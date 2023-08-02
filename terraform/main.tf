@@ -45,50 +45,53 @@ resource "azurerm_key_vault_access_policy" "key-vault-access-policy-qa" {
   ]
 }
 
-resource "azurerm_log_analytics_workspace" "log-analytics-workspace" {
-  name                = "${var.project_name}-log-analytics-workspace-${terraform.workspace}"
-  location            = azurerm_resource_group.resource-group.location
-  resource_group_name = azurerm_resource_group.resource-group.name
-  sku                 = "PerGB2018"
-  retention_in_days   = 30
+
+module "container-apps" {
+  # https://registry.terraform.io/modules/Azure/container-apps/azure/latest
+  # https://github.com/Azure/terraform-azure-container-apps/tree/main
+  source  = "Azure/container-apps/azure"
+  version = "0.1.1"
+  resource_group_name                                = azurerm_resource_group.resource-group.name
+  location                                           = azurerm_resource_group.resource-group.location
+  log_analytics_workspace_name                       = "${var.project_name}-log-analytics-${terraform.workspace}"
+  container_app_environment_name                     = "${var.project_name}-cae-${terraform.workspace}"
+
+  container_apps = {
+    nginx = {
+      name          = "nginx"
+      revision_mode = "Single"
+
+      template = {
+        containers = [
+          {
+            name   = "nginx"
+            memory = "0.5Gi"
+            cpu    = 0.25
+            image  = "nginxdemos/hello"
+          }
+        ]
+      }
+      ingress = {
+        allow_insecure_connections = false
+        external_enabled           = true
+        target_port                = 80
+        traffic_weight = {
+          latest_revision = true
+          percentage      = 100
+        }
+      }
+
+    }
+  }
+
+  # container_app_secrets = {
+  #   nginx = [
+  #     {
+  #       name  = "secname"
+  #       value = azurerm_container_registry_token_password.pulltokenpassword.password1[0].value
+  #     }
+  #   ]
+  # }
 }
-
-# resource "azurerm_container_app_environment" "container-app-environment" {
-#   name                       = "container-app-environment-${terraform.workspace}"
-#   location                   = azurerm_resource_group.resource-group.location
-#   resource_group_name        = azurerm_resource_group.resource-group.name
-#   log_analytics_workspace_id = azurerm_log_analytics_workspace.log-analytics-workspace.id
-# }
-
-
-# ----- # QA Container App ----------------------------------------------------
-# resource "azurerm_container_app" "qa" {
-#   count                        = terraform.workspace == "non-prod" ? 1 : 0
-#   name                         = "container-app-qa"
-#   container_app_environment_id = azurerm_container_app_environment.container-app-environment.id
-#   resource_group_name          = azurerm_resource_group.resource-group.name
-#   revision_mode                = "Single"
-
-#   template {
-#     min_replicas = 1
-#     max_replicas = 1
-
-#     container {
-#       name   = "container-app-qa"
-#       image  = "nginxdemos/hello:latest"
-#       cpu    = 0.25
-#       memory = "0.5Gi"
-#     }
-#   }
-
-#   ingress {
-#     allow_insecure_connections = false
-#     external_enabled           = true
-#     target_port                = 80
-#     traffic_weight {
-#       percentage = 100
-#     }
-#   }
-# }
 
 
