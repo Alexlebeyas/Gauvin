@@ -69,14 +69,14 @@ module "container-apps" {
       revision_mode = "Single"
 
       template = {
-        min_replicas = 0
-        max_replicas = 1
+        min_replicas = var.ca_min_replicas
+        max_replicas = var.ca_max_replicas
         containers = [
           {
             name   = "web"
-            memory = "0.5Gi"
-            cpu    = 0.25
-            image  = "nginxdemos/hello"
+            memory = var.ca_web_memory
+            cpu    = var.ca_web_cpu
+            image  = var.ca_web_image
           }
         ]
       }
@@ -95,14 +95,14 @@ module "container-apps" {
       revision_mode = "Single"
 
       template = {
-        min_replicas = 0
-        max_replicas = 1
+        min_replicas = var.ca_min_replicas
+        max_replicas = var.ca_max_replicas
         containers = [
           {
             name   = "api"
-            memory = "0.5Gi"
-            cpu    = 0.25
-            image  = "nginxdemos/hello"
+            memory = var.ca_api_memory
+            cpu    = var.ca_api_cpu
+            image  = var.ca_api_image
             env    = var.django_env_vars
           }
         ]
