@@ -71,18 +71,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "golibro.wsgi.application"
 
-DATABASES = {
-    "default": {
-        "ENGINE": "mssql",
-        "NAME": str(os.getenv("MSSQL_DB_NAME")),
-        "USER": str(os.getenv("MSSQL_USER")),
-        "PASSWORD": str(os.getenv("MSSQL_PASSWORD")),
-        "HOST": "mssql2017",
-        "PORT": "1433",
-        "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server"},
-    },
-}
-
 
 CACHES = {
     "default": {
