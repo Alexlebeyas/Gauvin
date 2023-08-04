@@ -1,2 +1,2 @@
-location = "canadacentral"
+location     = "canadacentral"
 project_name = "gauvin"

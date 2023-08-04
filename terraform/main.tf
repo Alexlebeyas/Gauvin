@@ -73,20 +73,37 @@ module "container-apps" {
         max_replicas = 1
         containers = [
           {
-            name   = "nginx"
+            name   = "web"
             memory = "0.5Gi"
             cpu    = 0.25
             image  = "nginxdemos/hello"
-            env = [
-              {
-                name        = "DATABASE_PASSWORD"
-                secret_name = "database-password"
-              },
-              {
-                name  = "NON_SECRET_ENV_VAR"
-                value = "NotASecret"
-              }
-            ]
+          }
+        ]
+      }
+      ingress = {
+        allow_insecure_connections = false
+        external_enabled           = true
+        target_port                = 80
+        traffic_weight = {
+          latest_revision = true
+          percentage      = 100
+        }
+      }
+    },
+    api = {
+      name          = "api"
+      revision_mode = "Single"
+
+      template = {
+        min_replicas = 0
+        max_replicas = 1
+        containers = [
+          {
+            name   = "api"
+            memory = "0.5Gi"
+            cpu    = 0.25
+            image  = "nginxdemos/hello"
+            env    = var.django_env_vars
           }
         ]
       }
@@ -102,8 +119,20 @@ module "container-apps" {
     }
   }
 
+
   container_app_secrets = {
-    web = [
+    # Secrets cannot be removed from container apps. They can only be blanked out.
+    # See this issue: https://github.com/microsoft/azure-container-apps/issues/395
+    # Also: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/container_app
+
+    # web = [
+    #   {
+    #     name  = "secret-1"
+    #     value = data.azurerm_key_vault_secret.secret-1.value"
+    #   }
+    # ]
+
+    api = [
       {
         name  = "database-password"
         value = data.azurerm_key_vault_secret.database-password.value
