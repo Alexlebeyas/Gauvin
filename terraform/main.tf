@@ -54,8 +54,23 @@ data "azurerm_key_vault_secret" "database-password" {
 }
 
 module "container-apps" {
+  # Reference
   # https://registry.terraform.io/modules/Azure/container-apps/azure/latest
   # https://github.com/Azure/terraform-azure-container-apps/tree/main
+
+  # 2023-08-04, JM
+  # The Terraform Azure provider for Container App doesn't support scale rules
+  # (See: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/container_app)
+
+  # There is an issue and open PR on Github for this
+  # https://github.com/hashicorp/terraform-provider-azurerm/issues/20629
+  # https://github.com/hashicorp/terraform-provider-azurerm/pull/21274
+
+  # It's not yet clear if creating a new revision will erase any manually created scale rules.
+  # We may have to set scale rules with Azure CLI in a pipeline during deploy
+  # (See: https://learn.microsoft.com/en-us/cli/azure/containerapp?view=azure-cli-latest#az-containerapp-update)
+  # TODO: Consider the above when writing the deploy pipeline, which calls the command to update the image to latest build number
+
   source                         = "Azure/container-apps/azure"
   version                        = "0.1.1"
   resource_group_name            = azurerm_resource_group.resource-group.name
