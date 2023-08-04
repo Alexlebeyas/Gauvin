@@ -131,6 +131,42 @@ module "container-apps" {
           percentage      = 100
         }
       }
+    },
+    celery_beat = {
+      name          = "celery-beat"
+      revision_mode = "Single"
+
+      template = {
+        min_replicas = 1 # apps with no ingress must have minimum 1
+        max_replicas = 1 # celery beat must be a singleton
+        containers = [
+          {
+            name   = "celery-beat"
+            memory = var.ca_celery_beat_memory
+            cpu    = var.ca_celery_beat_cpu
+            image  = var.ca_celery_beat_image
+            env    = var.django_env_vars
+          }
+        ]
+      }
+    },
+    celery_worker = {
+      name          = "celery-worker"
+      revision_mode = "Single"
+
+      template = {
+        min_replicas = 1 # apps with no ingress must have minimum 1
+        max_replicas = var.ca_max_replicas
+        containers = [
+          {
+            name   = "celery-worker"
+            memory = var.ca_celery_worker_memory
+            cpu    = var.ca_celery_worker_cpu
+            image  = var.ca_celery_worker_image
+            env    = var.django_env_vars
+          }
+        ]
+      }
     }
   }
 
@@ -147,7 +183,23 @@ module "container-apps" {
     #   }
     # ]
 
+    # api, celery_beat, celery_worker are all the same Django app, and share the same image.
+    # Not sure if there's a way to avoid repeating these lists like there is for env vars, since these reference a data attribue.
     api = [
+      {
+        name  = "database-password"
+        value = data.azurerm_key_vault_secret.database-password.value
+      }
+    ]
+
+    celery_beat = [
+      {
+        name  = "database-password"
+        value = data.azurerm_key_vault_secret.database-password.value
+      }
+    ]
+
+    celery_worker = [
       {
         name  = "database-password"
         value = data.azurerm_key_vault_secret.database-password.value
