@@ -46,7 +46,12 @@ resource "azurerm_key_vault_access_policy" "key-vault-access-policy-qa" {
 }
 
 
-module "container-apps" {
+module "container-apps-non-prod" {
+  # No scale rules in this module. Is that a blocker?
+  # Certificates?
+
+  count = terraform.workspace == "prod" ? 0 : 1
+
   # https://registry.terraform.io/modules/Azure/container-apps/azure/latest
   # https://github.com/Azure/terraform-azure-container-apps/tree/main
   source  = "Azure/container-apps/azure"
