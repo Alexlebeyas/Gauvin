@@ -25,21 +25,20 @@ resource "azurerm_resource_group" "resource-group" {
   location = var.location
 }
 
-data "azurerm_client_config" "current" {}
-
 resource "azurerm_key_vault" "key-vault" {
   name                     = "${var.project_name}-key-vault-${terraform.workspace}"
   location                 = azurerm_resource_group.resource-group.location
   resource_group_name      = azurerm_resource_group.resource-group.name
-  tenant_id                = data.azurerm_client_config.current.tenant_id
+  tenant_id                = var.tenant_id
   sku_name                 = "standard"
   purge_protection_enabled = true
 }
 
-resource "azurerm_key_vault_access_policy" "key-vault-access-policy-qa" {
+resource "azurerm_key_vault_access_policy" "key-vault-access-policy" {
+  for_each     = { for index, policy in var.key_vault_access_policies : index => policy }
   key_vault_id = azurerm_key_vault.key-vault.id
-  tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = data.azurerm_client_config.current.object_id
+  tenant_id    = var.tenant_id
+  object_id    = each.value.object_id
   secret_permissions = [
     "Get", "Backup", "Delete", "List", "Purge", "Recover", "Restore", "Set"
   ]
