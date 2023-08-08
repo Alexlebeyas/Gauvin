@@ -53,6 +53,14 @@ data "azurerm_key_vault_secret" "database-password" {
   key_vault_id = azurerm_key_vault.key-vault.id
 }
 
+resource "azurerm_container_registry" "acr" {
+  name                = "${var.project_name}acr${terraform.workspace}" # alphanumeric characters only
+  resource_group_name = azurerm_resource_group.resource-group.name
+  location            = azurerm_resource_group.resource-group.location
+  sku                 = var.acr_sku
+  admin_enabled       = true
+}
+
 module "container-apps" {
   # Reference
   # https://registry.terraform.io/modules/Azure/container-apps/azure/latest
@@ -104,6 +112,13 @@ module "container-apps" {
           percentage      = 100
         }
       }
+      registry = [
+        {
+          server               = azurerm_container_registry.acr.login_server
+          username             = azurerm_container_registry.acr.admin_username
+          password_secret_name = "acr-password"
+        }
+      ]
     },
     api = {
       name          = "api-${terraform.workspace}"
@@ -131,6 +146,13 @@ module "container-apps" {
           percentage      = 100
         }
       }
+      registry = [
+        {
+          server               = azurerm_container_registry.acr.login_server
+          username             = azurerm_container_registry.acr.admin_username
+          password_secret_name = "acr-password"
+        }
+      ]
     },
     celery_beat = {
       name          = "celery-beat-${terraform.workspace}"
@@ -149,6 +171,13 @@ module "container-apps" {
           }
         ]
       }
+      registry = [
+        {
+          server               = azurerm_container_registry.acr.login_server
+          username             = azurerm_container_registry.acr.admin_username
+          password_secret_name = "acr-password"
+        }
+      ]
     },
     celery_worker = {
       name          = "celery-worker-${terraform.workspace}"
@@ -167,6 +196,13 @@ module "container-apps" {
           }
         ]
       }
+      registry = [
+        {
+          server               = azurerm_container_registry.acr.login_server
+          username             = azurerm_container_registry.acr.admin_username
+          password_secret_name = "acr-password"
+        }
+      ]
     }
   }
 
@@ -176,12 +212,12 @@ module "container-apps" {
     # See this issue: https://github.com/microsoft/azure-container-apps/issues/395
     # Also: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/container_app
 
-    # web = [
-    #   {
-    #     name  = "secret-1"
-    #     value = data.azurerm_key_vault_secret.secret-1.value"
-    #   }
-    # ]
+    web = [
+      {
+        name  = "acr-password"
+        value = azurerm_container_registry.acr.admin_password
+      }
+    ]
 
     # api, celery_beat, celery_worker are all the same Django app, and share the same image.
     # Not sure if there's a way to avoid repeating these lists like there is for env vars, since these reference a data attribue.
@@ -189,6 +225,10 @@ module "container-apps" {
       {
         name  = "database-password"
         value = data.azurerm_key_vault_secret.database-password.value
+      },
+      {
+        name  = "acr-password"
+        value = azurerm_container_registry.acr.admin_password
       }
     ]
 
@@ -196,6 +236,10 @@ module "container-apps" {
       {
         name  = "database-password"
         value = data.azurerm_key_vault_secret.database-password.value
+      },
+      {
+        name  = "acr-password"
+        value = azurerm_container_registry.acr.admin_password
       }
     ]
 
@@ -203,6 +247,10 @@ module "container-apps" {
       {
         name  = "database-password"
         value = data.azurerm_key_vault_secret.database-password.value
+      },
+      {
+        name  = "acr-password"
+        value = azurerm_container_registry.acr.admin_password
       }
     ]
   }

@@ -1,6 +1,8 @@
 variable "location" {}
 variable "project_name" {}
 
+variable "acr_sku" { default = "Basic" }
+
 # Default values are meant for placeholders in non-prod environments, and should be overriden where necessary
 variable "ca_min_replicas" { default = 0 }
 variable "ca_max_replicas" { default = 1 }
