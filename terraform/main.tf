@@ -207,3 +207,16 @@ module "container-apps" {
     ]
   }
 }
+
+resource "azurerm_redis_cache" "redis" {
+  # For some reason it takes up to 30 minutes to create this resource on Azure. It's been like this for years.
+  # See: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/redis_cache
+  name                = "${var.project_name}-redis-${terraform.workspace}" # name must be globally unique
+  location            = azurerm_resource_group.resource-group.location
+  resource_group_name = azurerm_resource_group.resource-group.name
+  enable_non_ssl_port = false
+  minimum_tls_version = "1.2"
+  sku_name            = var.redis_sku_name
+  family              = var.redis_family
+  capacity            = var.redis_capacity
+}
