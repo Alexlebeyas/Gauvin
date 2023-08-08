@@ -1,3 +1,7 @@
+# !!! DO NOT CHECK SECRET VALUES (passwords, API keys, etc.) INTO THIS FILE !!!
+# See the README for handling secret values
+
+# These variables are common to all environments, and can be overriden in an environment specific file.
 location     = "canadacentral"
 project_name = "gauvin"
 

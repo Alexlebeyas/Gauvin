@@ -133,6 +133,7 @@ module "container-apps" {
             cpu    = var.ca_api_cpu
             image  = var.ca_api_image
             env    = var.django_env_vars
+            # command = "" # TODO: Overriding command to start the API web server
           }
         ]
       }
@@ -167,6 +168,7 @@ module "container-apps" {
             cpu    = var.ca_celery_beat_cpu
             image  = var.ca_celery_beat_image
             env    = var.django_env_vars
+            # command = "" # TODO: Overriding command to start the celery beat scheduler
           }
         ]
       }
@@ -192,6 +194,7 @@ module "container-apps" {
             cpu    = var.ca_celery_worker_cpu
             image  = var.ca_celery_worker_image
             env    = var.django_env_vars
+            # command = "" # TODO: Overriding command to start the celery worker
           }
         ]
       }
