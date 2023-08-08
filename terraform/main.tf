@@ -80,7 +80,7 @@ module "container-apps" {
 
   container_apps = {
     web = {
-      name          = "web"
+      name          = "web-${terraform.workspace}"
       revision_mode = "Single"
 
       template = {
@@ -106,7 +106,7 @@ module "container-apps" {
       }
     },
     api = {
-      name          = "api"
+      name          = "api-${terraform.workspace}"
       revision_mode = "Single"
 
       template = {
@@ -133,7 +133,7 @@ module "container-apps" {
       }
     },
     celery_beat = {
-      name          = "celery-beat"
+      name          = "celery-beat-${terraform.workspace}"
       revision_mode = "Single"
 
       template = {
@@ -151,7 +151,7 @@ module "container-apps" {
       }
     },
     celery_worker = {
-      name          = "celery-worker"
+      name          = "celery-worker-${terraform.workspace}"
       revision_mode = "Single"
 
       template = {
