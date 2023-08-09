@@ -1,3 +1,5 @@
+# Common requirements for all environments
+
 celery==5.3.1
 coreapi==2.3.3
 django-cors-headers==4.2.0
