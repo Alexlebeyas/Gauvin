@@ -9,12 +9,14 @@ PROJECT_URI = "".join((PROJECT_PROTOCOL, PROJECT_DOMAIN))
 DEBUG = False
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_USE_TLS = True
-EMAIL_HOST = ""
-EMAIL_PORT = 587
-SERVER_EMAIL = EMAIL_HOST_USER = os.environ.get("EMAIL")
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD")
-DEFAULT_FROM_EMAIL = ""
+
+# TODO: Email config in Sendgrid once there is a verified client domain. See Readme.
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = ""
+# EMAIL_PORT = 587
+# SERVER_EMAIL = EMAIL_HOST_USER = os.environ.get("EMAIL")
+# EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD")
+# DEFAULT_FROM_EMAIL = ""
 
 AUTH_PASSWORD_VALIDATORS = [
     {
