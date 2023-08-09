@@ -2,15 +2,16 @@ from .base import *
 
 ALLOWED_HOSTS = []
 PROJECT_PROTOCOL = "https://"
-PROJECT_DOMAIN = ""
+PROJECT_DOMAIN = "api-qa.blacksea-dc7dc6b2.canadacentral.azurecontainerapps.io"
 PROJECT_URI = "".join((PROJECT_PROTOCOL, PROJECT_DOMAIN))
-
 
 DEBUG = True
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "mailhog"  # Mailhog Container
-EMAIL_PORT = "1025"
+
+# TODO: Email config in Sendgrid once there is a verified client domain. See Readme.
+# EMAIL_HOST = "mailhog"  # Mailhog Container
+# EMAIL_PORT = "1025"
 
 AUTH_PASSWORD_VALIDATORS = [
     {
