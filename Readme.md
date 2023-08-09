@@ -154,4 +154,6 @@ User access to the key vaults is managed by the `key_vault_access_policies` Terr
 
 ## SMTP
 
-TODO: Postmark account to be handed off to the client? Sendgrid account via Azure Marketplace?
+There is an Azure marketplace Sendgrid account in the production resource group `gauvin-rg-prod`.
+
+It is meant for use in all environments. It can be accessed [here](https://portal.azure.com/#@impgauvin.onmicrosoft.com/resource/subscriptions/e3316aac-532c-4f26-9feb-4703dd5ce879/resourceGroups/gauvin-rg-prod/providers/Microsoft.SaaS/resources/gauvin-sendgrid/overview).
