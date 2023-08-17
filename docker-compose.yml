@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/django/Dockerfile
-    container_name: django-${PROJECT}  
+    container_name: django-golibro  
     environment:
       - MSSQL_USER
       - MSSQL_DB_NAME
@@ -21,7 +21,7 @@ services:
       - mssql2017
     command: sh -c "python manage.py runsslserver 0.0.0.0:8000"
   mssql2017:
-    container_name: mssql-${PROJECT}
+    container_name: mssql-golibro
     image: mcr.microsoft.com/azure-sql-edge:latest
     hostname: 'sqlserver'
     # CRISTOF WE MAY NEED TO ADDRESS THIS, THERE IS A MIXED BETWEEN PERMISSIONS
@@ -39,7 +39,7 @@ services:
 
   mailhog:
     image: mailhog/mailhog:v1.0.1
-    container_name: mailhog-${PROJECT} 
+    container_name: mailhog-golibro 
     restart: always
     ports:
       - 1025:1025
@@ -49,7 +49,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/django/Dockerfile
-    container_name: celery-${PROJECT}   
+    container_name: celery-golibro   
     command: sh -c "celery -A golibro.celeryconf beat -l info"
     volumes:
       - .:/hitiit360
@@ -66,18 +66,18 @@ services:
     tty: true
   
   redis:
-    image: redis:alpine
-    container_name: redis-${PROJECT}
+    image: redis:7.2-rc-alpine
+    container_name: redis-golibro
     ports:
       - "6382:6379"
 
   redis-commander:
     image: rediscommander/redis-commander:latest
-    container_name: redis-commander-${PROJECT}
+    container_name: redis-commander-golibro
     environment:
       - REDIS_HOSTS=local:redis:6379
-      - HTTP_USER=${REDIS_COMMANDER_USER}
-      - HTTP_PASSWORD=${REDIS_COMMANDER_PWD}
+      - HTTP_USER=root
+      - HTTP_PASSWORD=qwerty
     ports:
       - "8081:8081"
     depends_on:

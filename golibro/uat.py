@@ -42,3 +42,15 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_SSL_REDIRECT = True
+
+DATABASES = {
+    "default": {
+        "ENGINE": "mssql",
+        "USER": os.getenv("MSSQL_USER"),
+        "PASSWORD": os.getenv("MSSQL_PASSWORD"),
+        "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server"},
+        "NAME": os.environ.get("MSSQL_DB_NAME", default="golibro"),
+        "HOST": os.environ.get("MSSQL_HOST", default="mssql2017"),
+        "PORT": os.environ.get("MSSQL_PORT", default="1433"),
+    },
+}
