@@ -9,11 +9,7 @@ django_env_vars = [
     secret_name = "database-password"
   },
   {
-    name  = "NON_SECRET_ENV_VAR"
-    value = "NotASecret"
-  },
-  {
-    name  = "NON_SECRET_ENV_VAR_2"
-    value = "AlsoNotASecret"
+    name  = "DJANGO_SETTINGS_MODULE"
+    value = "golibro.qa"
   },
 ]

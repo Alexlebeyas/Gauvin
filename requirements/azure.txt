@@ -1,0 +1,3 @@
+# Requirements specifically for Azure hosted environments (QA/UAT/Prod)
+# Includes base requirements
+-r base.txt

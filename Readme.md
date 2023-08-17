@@ -161,4 +161,6 @@ User access to the key vaults is managed by the `key_vault_access_policies` Terr
 
 There is an Azure marketplace Sendgrid account in the production resource group `gauvin-rg-prod`.
 
-It is meant for use in all environments. It can be accessed [here](https://portal.azure.com/#@impgauvin.onmicrosoft.com/resource/subscriptions/e3316aac-532c-4f26-9feb-4703dd5ce879/resourceGroups/gauvin-rg-prod/providers/Microsoft.SaaS/resources/gauvin-sendgrid/overview).
+A single validated domain can be used for outgoing mail in all environments. An `EMAIL_SUBJECT_PREFIX` has been set to identify email originating from QA and UAT environments.
+
+The Sendgrid account can be accessed [here](https://portal.azure.com/#@impgauvin.onmicrosoft.com/resource/subscriptions/e3316aac-532c-4f26-9feb-4703dd5ce879/resourceGroups/gauvin-rg-prod/providers/Microsoft.SaaS/resources/gauvin-sendgrid/overview).
