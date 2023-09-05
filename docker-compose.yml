@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/django/Dockerfile
-    container_name: django-golibro  
+    container_name: django-golibro
     environment:
       - MSSQL_USER
       - MSSQL_DB_NAME
@@ -39,7 +39,7 @@ services:
 
   mailhog:
     image: mailhog/mailhog:v1.0.1
-    container_name: mailhog-golibro 
+    container_name: mailhog-golibro
     restart: always
     ports:
       - 1025:1025
@@ -49,7 +49,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/django/Dockerfile
-    container_name: celery-golibro   
+    container_name: celery-golibro
     command: sh -c "celery -A golibro.celeryconf beat -l info"
     volumes:
       - .:/hitiit360
@@ -57,14 +57,33 @@ services:
       - redis
       - mssql2017
     environment:
-      - MSSQL_SA_USER
+      - MSSQL_USER
       - MSSQL_DB_NAME
       - MSSQL_PORTS
-      - MSSQL_ROOT_PASSWORD
+      - MSSQL_PASSWORD
       - SECRET_KEY
       - DJANGO_SETTINGS_MODULE
     tty: true
-  
+
+  celerybeat:
+    build:
+      context: .
+      dockerfile: ./docker/django/Dockerfile
+    container_name: celery-beat-${PROJECT}
+    command: sh -c "celery -A golibro.celeryconf beat -l debug"
+    volumes:
+      - .:/golibro
+    environment:
+      - MSSQL_USER
+      - MSSQL_DB_NAME
+      - MSSQL_PORTS
+      - MSSQL_PASSWORD
+      - SECRET_KEY
+      - DJANGO_SETTINGS_MODULE
+    depends_on:
+      - redis
+      - mssql2017
+
   redis:
     image: redis:7.2-rc-alpine
     container_name: redis-golibro

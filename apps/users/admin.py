@@ -1,11 +1,11 @@
+from apps.common.models import Language
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.contrib.auth.models import Group
 from django.utils.translation import gettext_lazy as _
 from rest_framework.authtoken.models import TokenProxy
 
-from .models import User, Frequency, Contact, Representative, ContactSubType, ContactType
-from apps.common.models import Language
+from .models import User, Frequency, Contact, Representative, ContactSubType, ContactType, BlacklistedToken
 
 
 @admin.register(User)
@@ -58,6 +58,11 @@ class ContactSubTypeModelAdmin(admin.ModelAdmin):
 @admin.register(ContactType)
 class ContactTypeModelAdmin(admin.ModelAdmin):
     list_display = ['id', 'description', 'description_en', 'is_system']
+
+
+@admin.register(BlacklistedToken)
+class BlacklistedTokenModelAdmin(admin.ModelAdmin):
+    list_display = ['id', 'token', 'user', 'timestamp']
 
 
 admin.site.unregister(Group)

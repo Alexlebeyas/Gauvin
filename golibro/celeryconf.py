@@ -5,7 +5,7 @@ from django.conf import settings
 
 golibro = path.basename(path.dirname(__file__))
 # set the default Django settings module for the 'celery' program.
-environ.setdefault('DJANGO_SETTINGS_MODULE', f'{golibro}.settings')
+environ.setdefault('DJANGO_SETTINGS_MODULE', f'{golibro}.development')
 
 app = Celery('golibro')
 

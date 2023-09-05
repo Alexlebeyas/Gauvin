@@ -49,6 +49,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    "apps.users.middleware.logoutverify.LogoutVerifyMiddleware",
 ]
 
 ROOT_URLCONF = "golibro.urls"
@@ -154,3 +155,10 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_LIFETIME": timedelta(minutes=5),
     "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
 }
+
+IS_DB_CONNECTION_SHOULD_TEST = True
+CRON_SHEDULE_FOR_DB_CONNECTION_TEST = 5  # Minutes
+CRON_NB_TEST_FOR_DB_CONNECTION = 5  # NB tests to execute
+CRON_PERCENT_APPROVE_FOR_DB_CONNECTION = 90  # Validation percentage
+
+ADMINS = (('Golibro', 'admin@golibro.ca'),)

@@ -534,7 +534,7 @@ class User(AbstractUser):
     is_active = models.BooleanField(
         default=True,
         help_text="Designates whether this user should be treated as active. "
-        "Unselect this instead of deleting accounts.",
+                  "Unselect this instead of deleting accounts.",
         verbose_name="active",
     )
 
@@ -564,3 +564,12 @@ class User(AbstractUser):
     class Meta:
         managed = True
         db_table = "tblContactSecondaire"
+
+
+class BlacklistedToken(models.Model):
+    token = models.CharField(max_length=500)
+    user = models.ForeignKey(User, related_name="token_user", on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ("token", "user")
